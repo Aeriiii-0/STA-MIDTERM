@@ -43,6 +43,18 @@
             box-sizing: border-box;
         }
 
+        .stats-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
         .question-text {
             font-size: 1.15rem;
             line-height: 1.6;
@@ -100,7 +112,7 @@
         .feedback-box {
             border-radius: 6px;
             padding: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             display: none;
             line-height: 1.5;
             font-size: 0.95rem;
@@ -116,6 +128,11 @@
             display: block;
             background-color: var(--wrong-bg);
             border: 1px solid var(--wrong-border);
+        }
+
+        .action-area {
+            display: flex;
+            justify-content: flex-end;
         }
 
         .results-view {
@@ -140,7 +157,7 @@
             background-color: var(--accent-green);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 0.95rem;
             font-weight: 600;
             border-radius: 6px;
@@ -557,7 +574,6 @@
     let wrongPool = [];
     let isReviewMode = false;
     let hasAnsweredCurrent = false;
-    let autoAdvanceTimeout = null;
 
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -577,7 +593,6 @@
     }
 
     function renderQuestion() {
-        if (autoAdvanceTimeout) clearTimeout(autoAdvanceTimeout);
         const container = document.getElementById("quiz-window");
         if (currentIndex >= activeQuestions.length) {
             renderResults();
@@ -588,6 +603,10 @@
         const currentQ = activeQuestions[currentIndex];
 
         container.innerHTML = `
+            <div class="stats-hud">
+                <span>Progress: ${currentIndex + 1} / ${activeQuestions.length}</span>
+                <span>Correct: ${score}</span>
+            </div>
             <div class="question-text">${escapeHtml(currentQ.q)}</div>
             <div class="options-container" id="options-box">
                 ${currentQ.options.map((opt, idx) => `
@@ -597,6 +616,7 @@
                 `).join('')}
             </div>
             <div class="feedback-box" id="feedback-node"></div>
+            <div class="action-area" id="action-node"></div>
         `;
     }
 
@@ -606,6 +626,7 @@
 
         const currentQ = activeQuestions[currentIndex];
         const feedbackNode = document.getElementById("feedback-node");
+        const actionNode = document.getElementById("action-node");
         const nodes = document.querySelectorAll(".option-node");
 
         nodes.forEach((node, idx) => {
@@ -619,6 +640,11 @@
             feedbackNode.className = "feedback-box correct";
             feedbackNode.innerHTML = `<strong>🟢 Correct!</strong> ${escapeHtml(currentQ.feedback)}`;
             score++;
+            // Update HUD score immediately
+            document.querySelector(".stats-hud").innerHTML = `
+                <span>Progress: ${currentIndex + 1} / ${activeQuestions.length}</span>
+                <span>Correct: ${score}</span>
+            `;
         } else {
             document.getElementById(`opt-${selectedIndex}`).classList.add("wrong");
             document.getElementById(`opt-${currentQ.answer}`).classList.add("correct");
@@ -630,11 +656,26 @@
             }
         }
 
-        autoAdvanceTimeout = setTimeout(() => {
-            currentIndex++;
-            renderQuestion();
-        }, 1500);
+        // Display the navigation action button
+        actionNode.innerHTML = `<button id="next-btn" onclick="moveToNextQuestion()">Next Question (Enter)</button>`;
+        document.getElementById("next-btn").focus();
     }
+
+    function moveToNextQuestion() {
+        currentIndex++;
+        renderQuestion();
+    }
+
+    // Capture Enter key interactions
+    window.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            const nextButton = document.getElementById("next-btn");
+            if (nextButton) {
+                event.preventDefault();
+                nextButton.click();
+            }
+        }
+    });
 
     function renderResults() {
         const container = document.getElementById("quiz-window");
