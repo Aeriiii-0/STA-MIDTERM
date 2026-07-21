@@ -3,718 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Testing & Automation Master Simulator</title>
+    <title>Rizal Practice Quiz | Chapters 1–6</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-color: #c9d1d9;
-            --accent-color: #58a6ff;
-            --accent-green: #2ea043;
-            --accent-teal: #008080;
-            --border-color: #30363d;
-            --correct-bg: rgba(46, 160, 67, 0.15);
-            --correct-border: #2ea043;
-            --wrong-bg: rgba(248, 81, 73, 0.15);
-            --wrong-border: #f85149;
+            --bg-color: #0b1319;
+            --card-bg: #13222d;
+            --accent-teal: #00e5ff;
+            --accent-green: #00e676;
+            --text-main: #e0f2fe;
+            --text-muted: #94a3b8;
+            --border-color: #1e3a8a33;
+            --option-bg: #1c2d3d;
+            --option-hover: #263d52;
+            --correct-bg: #064e3b;
+            --correct-border: #10b981;
+            --wrong-bg: #881337;
+            --wrong-border: #f43f5e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            box-sizing: border-box;
+            padding: 20px;
         }
 
         .quiz-container {
-            width: 100%;
-            max-width: 700px;
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            box-sizing: border-box;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        .stats-hud {
+        .header-bar {
+            background-color: #0d1a24;
+            padding: 20px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--accent-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .stats-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(0, 230, 118, 0.1));
+            border: 1px solid var(--accent-green);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .score-box .stat-value {
+            color: var(--accent-green);
+        }
+
+        .quiz-body {
+            padding: 30px 24px;
         }
 
         .question-text {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             line-height: 1.6;
-            margin-bottom: 25px;
-            font-weight: 500;
+            margin-bottom: 24px;
+            font-weight: 600;
         }
 
-        .options-container {
+        .options-grid {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 25px;
         }
 
-        .option-node {
-            border: 1px solid var(--border-color);
-            background-color: rgba(255,255,255,0.02);
-            padding: 14px 18px;
-            border-radius: 6px;
+        .option-btn {
+            background-color: var(--option-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            line-height: 1.4;
+            align-items: center;
         }
 
-        .option-node:hover {
-            border-color: var(--accent-color);
-            background-color: rgba(88, 166, 255, 0.05);
+        .option-btn:hover:not([disabled]) {
+            background-color: var(--option-hover);
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
         }
 
-        .option-node.correct {
-            border-color: var(--correct-border) !important;
+        .option-btn.correct {
             background-color: var(--correct-bg) !important;
-            cursor: default;
+            border-color: var(--correct-border) !important;
+            color: #ecfdf5;
         }
 
-        .option-node.wrong {
-            border-color: var(--wrong-border) !important;
+        .option-btn.wrong {
             background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: #fff1f2;
+        }
+
+        .option-btn:disabled {
             cursor: default;
+            opacity: 0.8;
         }
 
-        .option-node.disabled {
-            cursor: default;
-            opacity: 0.6;
-        }
-        
-        .option-node.disabled:hover {
-            border-color: var(--border-color);
-            background-color: rgba(255,255,255,0.02);
+        .feedback-container {
+            margin-top: 20px;
+            min-height: 24px;
+            font-weight: 600;
+            font-size: 1.05rem;
         }
 
-        .feedback-box {
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: none;
-            line-height: 1.5;
-            font-size: 0.95rem;
+        .feedback-correct {
+            color: var(--accent-green);
         }
 
-        .feedback-box.correct {
-            display: block;
-            background-color: var(--correct-bg);
-            border: 1px solid var(--correct-border);
+        .feedback-wrong {
+            color: #f43f5e;
         }
 
-        .feedback-box.wrong {
-            display: block;
-            background-color: var(--wrong-bg);
-            border: 1px solid var(--wrong-border);
-        }
-
-        .action-area {
+        .footer-bar {
+            padding: 20px 24px;
+            background-color: #0d1a24;
             display: flex;
             justify-content: flex-end;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .results-view {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid var(--accent-teal);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin: 0 auto 20px auto;
-        }
-
-        button {
-            background-color: var(--accent-green);
-            color: white;
+        .next-btn {
+            background: linear-gradient(135deg, #00e5ff, #00e676);
+            color: #0b1319;
             border: none;
-            padding: 12px 24px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 6px;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, transform 0.1s;
         }
 
-        button:hover {
+        .next-btn:hover:not(:disabled) {
             opacity: 0.9;
+            transform: scale(1.02);
         }
 
-        .btn-secondary {
-            background-color: #21262d;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
+        .next-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #334155;
+            color: #94a3b8;
         }
 
-        .btn-secondary:hover {
-            background-color: #30363d;
+        .completion-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .completion-screen h2 {
+            font-size: 2rem;
+            color: var(--accent-teal);
+            margin-bottom: 12px;
+        }
+
+        .completion-screen p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #00e5ff, #00e676);
+            color: #0b1319;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-<div class="quiz-container" id="quiz-window">
-    <!-- Dynamic Interface Injection -->
+<div class="quiz-container">
+    <div class="header-bar">
+        <div class="stats-left">
+            <div class="stat-box">
+                <span class="stat-label">Total</span>
+                <span class="stat-value" id="total-questions">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Answered</span>
+                <span class="stat-value" id="answered-count">0</span>
+            </div>
+        </div>
+        <div class="score-box">
+            <span class="stat-label">Current Score</span>
+            <div class="stat-value" id="score-display">0</div>
+        </div>
+    </div>
+
+    <div class="quiz-body" id="quiz-body">
+        <div class="question-text" id="question-text">Loading question...</div>
+        <div class="options-grid" id="options-grid"></div>
+        <div class="feedback-container" id="feedback"></div>
+    </div>
+
+    <div class="footer-bar" id="footer-bar">
+        <button class="next-btn" id="next-btn" disabled>Next</button>
+    </div>
 </div>
 
 <script>
-    const masterBank = [
-        // ================= PART 1: SITUATIONAL MCQS (1-30) =================
-        {
-            q: "You are a newly appointed Test Manager overseeing a major system overhaul. You need to create a detailed blueprint document that catalogs test strategies, objectives, schedules, estimations, deadlines, and resources to ensure the software functions correctly. Which artifact are you developing?",
-            options: ["Test Case Script", "Test Plan", "Defect Log", "Risk Database Matrix"],
-            answer: 1,
-            feedback: "A Test Plan serves as the comprehensive blueprint document controlled by test managers to coordinate and run testing activities[cite: 2]."
-        },
-        {
-            q: "During a fast-paced development cycle, the requirements change rapidly due to shifting client demands. The Project Manager insists that the initial testing roadmap document cannot be changed. As a QA Lead, how should you correct this based on module guidelines?",
-            options: ["Agree with the PM, as a test plan must remain fixed once signed off.", "Explain that a well-crafted test plan is a dynamic document that must change according to project progressions and stay current.", "Abandon the test plan and switch entirely to exploratory testing logs.", "Create an entirely new test plan from scratch for every single requirement shift."],
-            answer: 1,
-            feedback: "A well-crafted test plan is specifically defined as a dynamic document that must adapt as the project moves forward[cite: 2]."
-        },
-        {
-            q: "A QA manager decides to share the comprehensive test plan with the Business Analysts, Project Managers, and Development teams. What is the primary objective of sharing this document outside the QA team?",
-            options: ["To allow developers to write the test plan components.", "To provide transparency into QA activities so all stakeholders know how the software will be tested.", "To pass the responsibility of schedule management to the Business Analysts.", "To eliminate the need for future bug reporting workflows."],
-            answer: 1,
-            feedback: "Sharing the test plan with adjacent teams provides vital transparency across all engineering stakeholders[cite: 2]."
-        },
-        {
-            q: "Your testing team is validating a massive e-commerce platform. The client requests that a specific third-party billing gateway be completely excluded from this week's testing cycle. Under which component of the test plan should this exclusion be formally documented?",
-            options: ["Resource Allocation", "Schedule", "Scope", "Exit Parameters"],
-            answer: 2,
-            feedback: "The scope section precisely details what features/modules are included or excluded from the evaluation parameters[cite: 2]."
-        },
-        {
-            q: "Your QA engineers are testing a mobile application and find a critical crash. The test plan states that every logged bug must be accompanied by step-by-step videos, screenshots, or text logs. Which specific component of the test plan outlines these submission rules?",
-            options: ["Environment Setup", "Defect Management", "Risk Management", "Tools Evaluation"],
-            answer: 1,
-            feedback: "Defect Management lays down the exact requirements for capturing and assigning tracking information for discovered system flaws[cite: 2]."
-        },
-        {
-            q: "A junior tester asks you how they will know exactly when they are required to stop all QA operations on a project. You direct them to a section of the test plan that provides a benchmark to compare actual results against expected outcomes. What is this section called?",
-            options: ["Schedule", "Resource Allocation", "Tools", "Exit Parameters"],
-            answer: 3,
-            feedback: "Exit parameters establish the final conditions that dictate when testing activities must formally cease[cite: 2]."
-        },
-        {
-            q: "You are in the initial phase of preparing a test plan. You organize a meeting to evaluate project goals, stakeholder needs, business objectives, and software specifications to ensure everyone is kept in sync from the very start. Which step are you executing?",
-            options: ["Design test cases", "Plan test schedule", "Identify test requirements", "Outline test deliverables"],
-            answer: 2,
-            feedback: "Early alignment around business objectives and system specifications falls under identifying testing requirements[cite: 2]."
-        },
-        {
-            q: "You are planning the overall approach to testing, mapping out methods, tools, resources, stakeholders, and timelines. You communicate this information well ahead of time to ensure dependent teams are available. Which step does this describe?",
-            options: ["Develop test strategy", "Define test scope", "Determine test objectives", "Outline test deliverables"],
-            answer: 0,
-            feedback: "Developing the strategy establishes the high-level roadmap and coordination patterns across dependencies[cite: 2]."
-        },
-        {
-            q: "While testing a complex financial system, an uninformed team unexpectedly deploys a patch that changes the active use cases mid-test, completely disrupting your data sets. Which step of preparing the test plan should have involved communicating with other teams to remove these disruptions?",
-            options: ["Identify test requirements", "Prepare test environment", "Design test cases", "Outline test deliverables"],
-            answer: 1,
-            feedback: "Preparing the environment explicitly involves alignment tasks to isolate your setups and insulate test logic from sudden disruptions[cite: 2]."
-        },
-        {
-            q: "A senior tester is writing a document that outlines expected starting and ending states for a system workflow, detailing the precise step-by-step actions and screenshots needed to move between those states. What are they designing?",
-            options: ["Test Scope Boundaries", "Test Cases", "Test Deliverables", "Test Requirements"],
-            answer: 1,
-            feedback: "Test cases detail the dynamic step configurations, initial baselines, inputs, and expected outcomes[cite: 2]."
-        },
-        {
-            q: "Your manager asks you to provide videos, photos, or software output to officially validate that the assigned test cases were fully completed by your team. What category of artifacts are they asking for?",
-            options: ["Test Scope Boundaries", "Test Requirements", "Test Strategy", "Test Deliverables"],
-            answer: 3,
-            feedback: "Deliverables encompass the structural evidence, results, reports, and execution logs generated by testing actions[cite: 2]."
-        },
-        {
-            q: "You are scheduling an upcoming testing cycle. To ensure accuracy, you map out who executes each test, how long it takes, and any constraints, specifically to manage variables like sudden deployments from uninformed teams. Which step are you fulfilling?",
-            options: ["Determine test objectives", "Plan test schedule", "Define test scope", "Develop test strategy"],
-            answer: 1,
-            feedback: "Scheduling manages the concrete calendar tracks, processing paths, resource hours, and environmental dependencies[cite: 2]."
-        },
-        {
-            q: "You are setting goals for your software test plan. You want to avoid any ambiguity, ensuring that the target describes clearly and concisely exactly what you want to achieve. Which attribute of a SMART objective does this fulfill?",
-            options: ["Measurable", "Attainable", "Specific", "Time-bound"],
-            answer: 2,
-            feedback: "Specificity explicitly demands non-ambiguous, high-clarity goal positioning[cite: 2]."
-        },
-        {
-            q: "A QA Director reviews your team's objectives and notes: 'We need to quantify our goals so we can easily compare progress against planning and decide on corrective measures if deviations occur.' Which SMART characteristic needs to be integrated?",
-            options: ["Specific", "Measurable", "Relevant", "Attainable"],
-            answer: 1,
-            feedback: "Measurable objectives leverage clear numbers/metrics to evaluate operational deltas and support correction[cite: 2]."
-        },
-        {
-            q: "A QA team sets a goal to completely automate 100% of a massive legacy system within 24 hours. Realizing this is impossible, the lead recalculates the required effort, time, and costs against the profits and other life priorities. Which SMART criteria are they enforcing?",
-            options: ["Specific", "Attainable/Reachable", "Time-bound", "Measurable"],
-            answer: 1,
-            feedback: "Attainability maps whether an engineering target is functionally viable when matched against timelines and resource caps[cite: 2]."
-        },
-        {
-            q: "When establishing test plan objectives, you check whether achieving the goal will provide positive benefits to your life and align properly with your other professional and personal goals. What criteria are you measuring?",
-            options: ["Relevant", "Specific", "Measurable", "Time-bound"],
-            answer: 0,
-            feedback: "Relevance tracks broader compatibility with macro targets across business and engineering units[cite: 2]."
-        },
-        {
-            q: "Your team notices that they naturally complete tasks with the shortest deadlines first while delaying less urgent ones. To keep the team focused, you establish intelligent limits and clear periods within which objectives must be met. What SMART step are you executing?",
-            options: ["Specific", "Measurable", "Attainable", "Time-bound"],
-            answer: 3,
-            feedback: "Time-bound goals construct mandatory scheduling bounds to drive focus and maintain timeline execution[cite: 2]."
-        },
-        {
-            q: "You are writing a test plan targeted at executive stakeholders. To keep the audience in mind, you make sure the document is logically grouped, easy to read, avoids technical language, and is no longer than one page with bullet points. Which two audience guidelines are you fulfilling?",
-            options: ["Flexible and Long-form", "Concise and Readable", "Rigid and Accurate", "Technical and Detailed"],
-            answer: 1,
-            feedback: "Concise plans keep sizes limited (e.g., single page format), while readability strips away unnecessary technical clutter[cite: 2]."
-        },
-        {
-            q: "You draft a test plan that is intentionally adaptable rather than fixed in stone so that if new information comes along or changes are required later, it won't hold the team back. What document property does this highlight?",
-            options: ["Accuracy", "Technical Depth", "Flexibility", "Ambiguity"],
-            answer: 2,
-            feedback: "Flexibility dictates that planning remains responsive to downstream insights or external adjustments[cite: 2]."
-        },
-        {
-            q: "A new tester joins your project. Before writing any test cases, they interview the developers to learn about the software's intended purpose, how it works, and its core functionality. Why is this step essential?",
-            options: ["It allows them to bypass the need for choosing testing tools.", "It helps them create test cases that are relevant and useful for testing the product.", "It allows them to change the exit parameters of the master plan.", "It ensures they can skip the scope definition phase entirely."],
-            answer: 1,
-            feedback: "Learning how the software is built creates context to trace realistic, structurally robust test configurations[cite: 2]."
-        },
-        {
-            q: "Look at the following test case entry spreadsheet: Type: Usability; Description: Ensure all links are working properly; Test Step: Have users click on various links on the page. Based on the module's sample spreadsheet, what should the 'Expected Result' be for this specific entry?",
-            options: [
-                "All 20 characters in the request should be appropriate.",
-                "The user's password will be accepted if it adheres to the rules.",
-                "Links will take users to another web page according to the on-page URL.",
-                "Pass or Fail."
-            ],
-            answer: 2,
-            feedback: "Per the module template matrix, the usability row expects links to cleanly transition users to matching targets[cite: 2]."
-        },
-        {
-            q: "You are scheduling a software delivery and decide to explicitly leave time in your planning document for dedicated 'bug fixing' sessions. What is the primary benefit of this practice?",
-            options: [
-                "It allows the team to find and fix problems early before they become too problematic or expensive.",
-                "It automatically shifts the testing strategy from manual to automated.",
-                "It expands the testing scope to cover third-party modules.",
-                "It eliminates the need to outline test deliverables."
-            ],
-            answer: 0,
-            feedback: "Early alignment checks keep issues isolated before structural shifts inflate fixing overhead[cite: 2]."
-        },
-        {
-            q: "You want to track your testing progress micro-logically. To do this, you take your primary test objectives and break them down into smaller, actionable parts that specify exactly how each objective will be met. What are you defining?",
-            options: ["Resource Planning", "Software Test Automation", "Test Criteria", "Team Logistics"],
-            answer: 2,
-            feedback: "Test criteria segment primary targets into detailed, easily audited progress tracking units[cite: 2]."
-        },
-        {
-            q: "You are managing a highly complex software system that requires a vast number of test cases. You decide to implement software test automation. What distinct business advantages does this provide according to the module?",
-            options: [
-                "It guarantees that no bugs will ever exist in production.",
-                "It allows testers to accomplish more in less time, boosting productivity and significantly reducing costs.",
-                "It eliminates the need to identify stakeholder requirements.",
-                "It removes the necessity of setting up hardware environments."
-            ],
-            answer: 1,
-            feedback: "Automation handles volume scaling, lowering ongoing execution costs while shifting resource hours[cite: 2]."
-        },
-        {
-            q: "You are managing a project and begin the process of identifying potential problem areas in the application, prioritizing them for testing, assigning levels, and calculating their ultimate impact. What process are you performing?",
-            options: ["Exit Parameter Verification", "Risk Analysis", "SMART Goal Setting", "Audience Readability Profiling"],
-            answer: 1,
-            feedback: "Risk analysis encompasses identifying system threats, evaluating exposure levels, and establishing priority tracks[cite: 2]."
-        },
-        {
-            q: "During a risk assessment meeting, your team identifies a flaw that could cause non-tolerable effects where the company might face major external exposure and heavy financial loss. How should this risk magnitude indicator be classified?",
-            options: ["Low", "Medium", "High", "Critical"],
-            answer: 2,
-            feedback: "High-magnitude indicators tag non-tolerable corporate exposures and financial losses[cite: 2]."
-        },
-        {
-            q: "An identified risk on a project is deemed tolerable but not desirable. The review shows that the company may suffer financially, but the overall risk remains limited. What magnitude indicator is this?",
-            options: ["Low", "Medium", "High", "Negligible"],
-            answer: 1,
-            feedback: "Medium status handles manageable though non-ideal conditions, capping immediate corporate loss[cite: 2]."
-        },
-        {
-            q: "Your company is restructuring its internal management hierarchy, which might disrupt your project's funding. Because this threat comes from the company or customer and not from the project itself, what category of risk is it?",
-            options: ["Software Risk", "Testing Risk", "Premature Release Risk", "Business Risk"],
-            answer: 3,
-            feedback: "Threats generated from corporate tiers or macro client shifts fall under Business Risks[cite: 2]."
-        },
-        {
-            q: "A QA Lead discovers that the testing team is struggling because they are completely unfamiliar with the specific platform architecture and the automated software testing tools chosen for the sprint. This falls directly under which risk identification category?",
-            options: ["Testing Risks", "Software Risks", "Business Risks", "Exit Parameter Risks"],
-            answer: 0,
-            feedback: "Lacking tooling validation expertise or context maps directly as a Testing Risk[cite: 2]."
-        },
-        {
-            q: "You are performing a risk assessment programmatically. You identify a specific condition, action, or event, and attempt to trace forward to determine exactly what its ultimate downstream impact will be. Which perspective of risk assessment are you utilizing?",
-            options: ["Cause perspective", "Likelihood perspective", "Effect perspective", "Magnitude perspective"],
-            answer: 2,
-            feedback: "Evaluating the target blast radius of an active event maps directly to the Effect perspective[cite: 2]."
-        },
+const rawQuestions = [
+    // Chapter 1
+    { q: "On what exact day of the week and date was Jose Rizal born?", options: ["Monday, June 19, 1861", "Wednesday, June 19, 1861", "Friday, June 22, 1861", "Wednesday, June 22, 1861"], answer: 1 },
+    { q: "Who was the parish priest that baptized Jose Rizal on June 22, 1861?", options: ["Father Pedro Casanas", "Father Francisco de Paula Sanchez", "Father Rufino Collantes", "Father Leoncio Lopez"], answer: 2 },
+    { q: "Why did Doña Teodora nearly die during the delivery of Jose Rizal?", options: ["She suffered from high blood pressure.", "Jose had an unusually large head.", "There was no physician present in Calamba.", "She was severely ill with malaria."], answer: 1 },
+    { q: "What is the literal meaning of the surname \"Rizal\" (derived from the Spanish word ricial)?", options: ["Market or marketplace", "Green field or wheat field that sprouts again", "Land of noble birth", "Wisdom and knowledge"], answer: 1 },
+    { q: "Jose Rizal was named \"Jose\" by his mother in honor of which saint?", options: ["St. Joseph", "St. John the Baptist", "St. Protacio", "St. Jude"], answer: 0 },
+    { q: "Where did Doña Teodora Alonso Realonda complete her formal education?", options: ["Colegio de La Concordia", "University of Santo Tomas", "Colegio de Santa Rosa", "Ateneo Municipal"], answer: 2 },
+    { q: "In the birth order of the eleven (11) Rizal siblings, what was Jose’s exact position?", options: ["5th", "6th", "7th", "8th"], answer: 2 },
+    { q: "Which among the Rizal siblings died at the age of three (3), causing Jose his \"first sorrow in life\"?", options: ["Saturnina", "Concepcion", "Josefa", "Soledad"], answer: 1 },
+    { q: "Who was Jose Rizal's only brother, who later became a General in the Philippine Revolution?", options: ["Manuel", "Antonio", "Paciano", "Francisco"], answer: 2 },
+    { q: "Jose Rizal’s paternal great-great-grandfather, Domingo Lam-co, was a Chinese immigrant who originated from where?", options: ["Canton, China", "Changchow, China", "Fujian, China", "Macao, China"], answer: 1 },
+    { q: "Why did Domingo Lam-co change his original family surname to \"Mercado\" in 1731?", options: ["To comply with a Spanish decree issued by Governor-General Claveria.", "To match his business as a merchant and avoid anti-Chinese prejudice.", "Because he was adopted by a Spanish family.", "To honor his Filipino mother-in-law."], answer: 1 },
+    { q: "On his mother’s side, Jose Rizal’s ancestor Eugenio Ursua had roots from which country?", options: ["Spain", "Japan", "China", "India"], answer: 1 },
+    { q: "To which social class did the Rizal family belong in Calamba, signifying their status as wealthy landowners and educated citizens?", options: ["Insulares", "Peninsulares", "Principalia", "Indios"], answer: 2 },
+    { q: "What privilege did the Rizal family hold that was a rare symbol of wealth in Calamba during that era?", options: ["They owned the largest steamship in Laguna.", "They owned a private carriage (carruaje) and a library with over 1,000 books.", "They were exempt from paying taxes to the Spanish crown.", "They owned the parish church of Calamba."], answer: 1 },
+    { q: "Under what system did the Rizal family cultivate their agricultural lands in Calamba?", options: ["They owned the entire hacienda outright.", "They were inquilinos (tenants) renting land owned by the Dominican Order.", "They were forced laborers under the polo y servicio system.", "They managed lands directly owned by the Governor-General."], answer: 1 },
 
-        // ================= PART 2: THE ADJACENT RE-BALANCED SPLIT (31-60) =================
-        {
-            q: "What component details which internal or external engineering resource will execute a specific assigned testing track?",
-            options: ["Defect Tracking Matrix", "Resource Allocation", "Environment Setup", "Scope Definitions"],
-            answer: 1,
-            feedback: "Resource Allocation sets clear engineer-to-task distributions throughout the sprint lifecycle[cite: 2]."
-        },
-        {
-            q: "When a Test Manager charts out the physical target hardware configurations, server footprints, and operating platform limits, what category are they establishing?",
-            options: ["Deliverables Outlines", "Environment Planning", "Strategy Matrix", "SMART Bounds"],
-            answer: 1,
-            feedback: "Physical setups, hosting parameters, sizing, and hardware bounds map to Environment Planning[cite: 2]."
-        },
-        {
-            q: "If a software engineering team pushes updates to production without performing sufficient verification routines, what category of hazard is actively being triggered?",
-            options: ["Business Structure Deviation", "Premature Release Risk", "Positive Parameter Bias", "Tooling Incompatibility"],
-            answer: 1,
-            feedback: "Releasing unverified or undertested assets introduces severe Premature Release Risks[cite: 2]."
-        },
-        {
-            q: "You are tracing a risk backwards. You observe an environmental breakdown and scan the internal processing lines to pinpoint the exact sequence that triggered the failure. What perspective is this?",
-            options: ["Effect perspective", "Likelihood perspective", "Cause perspective", "Objective perspective"],
-            answer: 2,
-            feedback: "Scanning backwards to expose why an issue exists is the Cause perspective[cite: 2]."
-        },
-        {
-            q: "An operations group estimates the mathematical probability that an individual technical requirement will fall short of expectations during execution. What perspective are they measuring?",
-            options: ["Likelihood perspective", "Effect perspective", "Cause perspective", "Deliverables perspective"],
-            answer: 0,
-            feedback: "Likelihood maps the explicit mathematical probability of verification failure[cite: 2]."
-        },
-        {
-            q: "A test manager sets up a central shared database cataloging legacy technical operational threats to assist future sprint planners. What asset are they building?",
-            options: ["A Test Plan Scope", "A Risk Assessment Database", "An Exit Parameter Guideline", "A SMART Spreadsheet Template"],
-            answer: 1,
-            feedback: "Storing threat profiles for reuse builds out a stable Risk Assessment Database[cite: 2]."
-        },
-        {
-            q: "Why does an accurate test plan prioritize running a comprehensive risk evaluation meeting during the early design phase?",
-            options: ["To eliminate the necessity of executing unit runs completely.", "To pinpoint potential problem areas early so developers and managers can mitigate them.", "To establish the absolute legal terms of the client contract.", "To avoid assigning text log criteria to junior engineers."],
-            answer: 1,
-            feedback: "Early risk reviews clarify threat boundaries, allowing proactive architectural mitigation[cite: 2]."
-        },
-        {
-            q: "A QA lead drafts a document section defining parameters that will not be touched by the active verification engineers. Where does this log reside?",
-            options: ["Resource allocation list", "Out of scope boundaries", "Scheduling dependencies matrix", "Tool configuration profiles"],
-            answer: 1,
-            feedback: "Scope explicitly structures both inside parameters and out of scope limits[cite: 2]."
-        },
-        {
-            q: "A core test plan objective says: 'Increase automation coverage by 15% using Selenium Web Driver inside Staging Environment by Q3.' What makes this a solid SMART statement?",
-            options: ["It uses technical language throughout all sections.", "It is non-ambiguous, quantifiable, achievable, relevant, and bounded in time.", "It passes scheduling tasks back to corporate analysts.", "It keeps the core architecture hidden from structural changes."],
-            answer: 1,
-            feedback: "This outlines clear targets, dates, metrics, tools, and environments, checking all SMART criteria[cite: 2]."
-        },
-        {
-            q: "What unique item is standard in a defect logging document to verify an active error state visually?",
-            options: ["The master strategy index", "Screenshots or video records", "The corporate budget sheet", "The complete resource matrix"],
-            answer: 1,
-            feedback: "Screenshots/videos are standard inclusions to prove actual runtime defect behaviors[cite: 2]."
-        },
-        {
-            q: "Which element describes the chronological timeline, hard delivery dates, and processing milestones?",
-            options: ["Environment parameters", "Test Schedule", "Out of scope logs", "Defect parameters"],
-            answer: 1,
-            feedback: "The schedule maps dates, constraints, and chronological velocity milestones[cite: 2]."
-        },
-        {
-            q: "If a risk profile assessment reports that an internal systemic crash carries very minor external exposure and zero financial damage, how is it indexed?",
-            options: ["High magnitude", "Medium magnitude", "Low magnitude", "Non-tolerable"],
-            answer: 2,
-            feedback: "Low-magnitude items are defined as tolerable with little to no financial downside or external visibility[cite: 2]."
-        },
-        {
-            q: "A team sets up a testing bed with specific data sets and account roles initialized to process distinct backend conditions. What step are they completing?",
-            options: ["Outlining deliverables", "Strategy document draft", "Test environment preparation", "Core requirement metrics logging"],
-            answer: 2,
-            feedback: "Configuring records, states, and user branches constitutes environment preparation[cite: 2]."
-        },
-        {
-            q: "What role maintains direct control and has final authority over the production, updating, and execution of the master software test plan?",
-            options: ["Senior Database Administrator", "Test Manager", "Customer Success Representative", "Junior Automation Intern"],
-            answer: 1,
-            feedback: "The Test Manager maintains primary structural control over the Test Plan[cite: 2]."
-        },
-        {
-            q: "What core criteria ensures that testing plans remain effective when unexpected engineering updates modify active project tasks?",
-            options: ["Keeping document access restricted.", "Maintaining dynamic and continuously current iterations.", "Fixing scheduling blocks permanently.", "Removing validation metrics altogether."],
-            answer: 1,
-            feedback: "A test plan stays useful by remaining dynamic and up to date with project realities[cite: 2]."
-        },
-        {
-            q: "A business unit wants to track the effectiveness of its validation team. Why must testing milestones be tied directly to clear deliverables?",
-            options: ["So stakeholders know exactly when artifacts must be ready for action.", "To automatically rewrite code flaws without engineering calls.", "To eliminate risk assessment database reviews.", "To restrict access to server environment logs."],
-            answer: 0,
-            feedback: "Mapping milestones to deliverables ensures clear visibility into schedule execution[cite: 2]."
-        },
-        {
-            q: "A testing strategy document states that all external API dependencies must be mocked inside the validation pipeline. Which section handles this architectural setup?",
-            options: ["Logistics definitions", "Testing methods and tools", "Defect entry metadata", "Specific user profile inputs"],
-            answer: 1,
-            feedback: "The strategy details high-level tools, methods, integrations, and architectural dependencies[cite: 2]."
-        },
-        {
-            q: "When a validation engineer plans the exact logistical framework for team communications, what risk are they preventing?",
-            options: ["Systemic hardware failures", "Poor coordination that degrades testing document utility", "Excessive automation licensing overhead", "Data scrambling errors"],
-            answer: 1,
-            feedback: "Logistics ensure continuous communication, maximizing the utility of testing work[cite: 2]."
-        },
-        {
-            q: "A developer asks why a certain bug was marked 'Failed Re-test.' The QA lead points to the precise expected parameters recorded in the script. Where was this matched?",
-            options: ["Master strategy template", "Test case validation matrix", "Business risk checklist", "Environmental sizing profile"],
-            answer: 1,
-            feedback: "Expected versus actual results are documented and tracked directly inside the individual test case[cite: 2]."
-        },
-        {
-            q: "What risk category covers issues arising directly from software bugs, code changes, and environment drift?",
-            options: ["Business Risk", "Software Risk", "Client Risk", "Budget Risk"],
-            answer: 1,
-            feedback: "Threats tied to code evolution and application stability fall under Software Risks[cite: 2]."
-        },
-        {
-            q: "If an engineering group focuses its best resources on components flagged with maximum magnitude metrics, what strategy are they using?",
-            options: ["Random exploratory mapping", "Risk-driven resource optimization", "Arbitrary timeline expansion", "Monolithic document structure locking"],
-            answer: 1,
-            feedback: "Concentrating engineering efforts on high-magnitude components maximizes risk reduction[cite: 2]."
-        },
-        {
-            q: "What property avoids using dense, overly technical language in documents intended for cross-departmental stakeholders?",
-            options: ["Accuracy", "Flexibility", "Readability", "Scale"],
-            answer: 2,
-            feedback: "Readability ensures non-technical stakeholders can understand the validation approach[cite: 2]."
-        },
-        {
-            q: "Why should a test plan specify components or scenarios that it will NOT evaluate?",
-            options: ["To hide system design flaws.", "To clarify testing boundaries and maximize focus.", "To reduce automation speed metrics.", "To bypass defect verification rules."],
-            answer: 1,
-            feedback: "Explicitly defining what is out of scope keeps testing efforts targeted and effective[cite: 2]."
-        },
-        {
-            q: "A team runs a brief automated suite to check environment stability before launching a large-scale regression cycle. What is this pre-check called?",
-            options: ["Retake analysis validation", "Smoke testing / Environment verification", "System data scrubbing loop", "Exit parameter baseline execution"],
-            answer: 1,
-            feedback: "Smoke/verification testing validates environment health before running deeper test passes[cite: 2]."
-        },
-        {
-            q: "Which step in test plan preparation establishes what the testing effort should accomplish based on business requirements?",
-            options: ["Design test cases", "Plan test schedule", "Determine test objectives", "Outline test deliverables"],
-            answer: 2,
-            feedback: "Test objectives define what the testing process aims to achieve based on project requirements[cite: 2]."
-        },
-        {
-            q: "A tester populates a field with an invalid data type to evaluate how the system handles errors. What type of testing is this?",
-            options: ["Positive functional validation", "Negative testing", "Environment capacity sizing", "Exploratory logging"],
-            answer: 1,
-            feedback: "Negative testing intentionally injects invalid inputs to assess application resilience[cite: 2]."
-        },
-        {
-            q: "What document properties should you prioritize to ensure a test plan does not slow down engineering progress?",
-            options: ["Rigid, long-form, and highly technical", "Concise, organized, readable, and flexible", "Monolithic, unchanging, and restricted", "Brief but ambiguous"],
-            answer: 1,
-            feedback: "Effective test plans are concise, organized, readable, flexible, and accurate[cite: 2]."
-        },
-        {
-            q: "Who else uses the test plan besides the QA team to understand how an application will be verified?",
-            options: ["External compliance auditors only", "Developers, Business Analysts, and Project Managers", "End consumers exclusively", "Database script automation modules"],
-            answer: 1,
-            feedback: "The test plan provides cross-team visibility for developers, PMs, and analysts alike[cite: 2]."
-        },
-        {
-            q: "What distinct component is required in automated test case rows to evaluate if a feature passes or fails?",
-            options: ["The corporate risk database index", "The expected result benchmark", "The environment maintenance timeline", "The team logistics schedule"],
-            answer: 1,
-            feedback: "The expected result provides the baseline metric to evaluate test success[cite: 2]."
-        },
-        {
-            q: "What risk perspective identifies a software threat and immediately analyzes its downstream blast radius?",
-            options: ["Cause perspective", "Effect perspective", "Likelihood perspective", "Scope perspective"],
-            answer: 1,
-            feedback: "The Effect perspective traces a condition forward to assess its dynamic impact[cite: 2]."
-        }
-    ];
+    // Chapter 2
+    { q: "At what age did Jose Rizal write his very first Tagalog poem, Sa Aking Mga Kabata?", options: ["6 years old", "8 years old", "10 years old", "12 years old"], answer: 1 },
+    { q: "Which prominent landmark near Calamba inspired young Jose's love for nature and served as the setting for many of his childhood memories?", options: ["Mount Banahaw", "Mount Makiling", "Mount Mayon", "Mount Taal"], answer: 1 },
+    { q: "What was the title of the famous poem written by Rizal at the age of 15 while studying at Ateneo, dedicating his fondest memories to his hometown?", options: ["A La Juventud Filipina", "Un Recuerdo a Mi Pueblo", "Mi Ultimo Adios", "A Filipinas"], answer: 1 },
+    { q: "What term did the local townspeople and parish priest use to fondly call young Jose because of his deep religious devotion and frequent visits to the church?", options: ["Pepe", "Manong Jose", "El Doctor", "JoseIto"], answer: 1 },
+    { q: "What imaginary or mythical creatures did Jose’s personal nurse (aya) use to scare him into eating his supper at night?", options: ["Tikbalang, Aswang, and Nuno sa Punso", "Kapre, Sirena, and Duwende", "Manananggal, Bakunawa, and Tiyanak", "Engkanto, Santelmo, and Bungisngis"], answer: 0 },
+    { q: "On June 6, 1868, Jose and his father went on a pilgrimage to fulfill a vow made by Doña Teodora. Which famous shrine did they visit?", options: ["Our Lady of Manaoag in Pangasinan", "Our Lady of Peace and Good Voyage in Antipolo", "The Black Nazarene in Quiapo", "The Holy Child in Cebu"], answer: 1 },
+    { q: "During their trip to Antipolo in 1868, what mode of water transport did Jose and Don Francisco use to navigate the Pasig River?", options: ["Bapor Tabo", "Casco", "Galleon", "Felucca"], answer: 1 },
+    { q: "While reading El Amigo de los Niños (The Children’s Friend) with his mother, which story left a profound, lifelong impression on young Jose?", options: ["The Story of the Greedy Dog", "The Story of the Foolish Turtle", "The Story of the Young Moth", "The Story of the Boy Who Cried Wolf"], answer: 2 },
+    { q: "Who was the parish priest of Calamba who served as an intellectual mentor to young Jose, instilling in him a love for truth and philosophy?", options: ["Father Pedro Casanas", "Father Leoncio Lopez", "Father Rufino Collantes", "Father Jose Burgos"], answer: 1 },
+    { q: "At age eight, Rizal wrote a Tagalog drama (sarswela). The Gobernadorcillo of which neighboring town bought the manuscript for two pesos (₱2.00) to perform at their local fiesta?", options: ["Biñan", "Paete", "Santa Cruz", "Los Baños"], answer: 1 },
+    { q: "Which uncle of Rizal—a scholar educated in Europe and India—encouraged his love for the arts, painting, and nature?", options: ["Tio Manuel", "Tio Gregorio", "Tio Jose Alberto", "Tio Antonio"], answer: 2 },
+    { q: "Which uncle focused on developing Jose’s frail physical body by teaching him swimming, fencing, wrestling, and martial arts?", options: ["Tio Jose Alberto", "Tio Manuel", "Tio Gregorio", "Tio Pedro"], answer: 1 },
+    { q: "Which uncle, an avid reader, encouraged Jose to read good books, study tirelessly, and observe life keen-sightedly?", options: ["Tio Gregorio", "Tio Manuel", "Tio Jose Alberto", "Tio Lorenzo"], answer: 0 },
+    { q: "What was the primary reason Doña Teodora built a small cottage in their backyard specifically for Jose?", options: ["So he could study Latin without distraction.", "To give him a place to play during the day and observe birds and nature.", "To isolate him when he was sick.", "To serve as an art studio for his sculptures."], answer: 1 },
+    { q: "What famous line from the poem Sa Aking Mga Kabata reflects Rizal's early appreciation for national identity through language?", options: ["\"Bella esperanza de la Patria mia.\"", "\"Ang hindi magmahal sa kanyang salita, mahigit sa hayop at malansang isda.\"", "\"El que no sabe mirar atras no llegara a su destino.\"", "\"Juventud filipina, ten fe en tu destino.\""], answer: 1 },
 
-    let activeQuestions = [];
-    let currentIndex = 0;
-    let score = 0;
-    let wrongPool = [];
-    let isReviewMode = false;
-    let hasAnsweredCurrent = false;
+    // Chapter 3
+    { q: "Who was Jose Rizal’s third home tutor who lived in the Rizal house to teach him Spanish and Latin, but died five months later?", options: ["Maestro Celestino", "Maestro Lucas Padua", "Leon Monroy", "Maestro Justiniano Aquino Cruz"], answer: 2 },
+    { q: "In June 1869, how did Jose travel from Calamba to Biñan to begin his formal education?", options: ["On horseback with his father Don Francisco", "By carromata (kalesa) accompanied by his brother Paciano", "By casco along the Laguna de Bay", "On foot accompanied by his Tio Manuel"], answer: 1 },
+    { q: "With whom did Jose stay while attending school in Biñan?", options: ["His aunt, Tia Tomasa", "His uncle, Tio Jose Alberto", "His art teacher, Old Juancho", "His former tutor, Maestro Lucas Padua"], answer: 0 },
+    { q: "How did Rizal describe his teacher in Biñan, Maestro Justiniano Aquino Cruz?", options: ["A gentle and soft-spoken friar who rarely punished students", "A tall, thin, slightly bent man who was a strict disciplinarian", "A young Spanish professor from the University of Santo Tomas", "A retired military officer who taught using strict drills"], answer: 1 },
+    { q: "On his very first day of school, why did Pedro (the teacher’s son) and other classmates laugh at Jose?", options: ["Because Jose was wearing worn-out clothes from Calamba.", "Because Jose spoke no Tagalog at all.", "Because Jose answered \"Un poco, señor\" when asked if he knew Spanish and Latin.", "Because Jose tripped and fell in front of the classroom."], answer: 2 },
+    { q: "How did Jose defeat the taller and bigger Pedro in a fistfight after class on his first day?", options: ["He used wrestling techniques taught to him by his Tio Manuel.", "Paciano intervened and fought Pedro for him.", "He used a wooden stick he found in the schoolyard.", "Pedro slipped on the mud and surrendered immediately."], answer: 0 },
+    { q: "In an arm-wrestling match (bunong-braso) after class, who defeated Jose, nearly cracking Jose's head against the sidewalk?", options: ["Pedro", "Andres Salandanan", "Jose Guevarra", "Arturo Camps"], answer: 1 },
+    { q: "Who was \"Old Juancho,\" and how did he support young Jose's artistic talent?", options: ["He was the parish priest who bought Jose’s religious drawings.", "He was Maestro Justiniano’s father-in-law who gave free drawing and painting lessons to Jose and Jose Guevarra.", "He was a carpenter who built Jose’s easel and paintbrushes.", "He was a merchant from Manila who brought Jose oil paints."], answer: 1 },
+    { q: "On December 17, 1870, what steamer did Jose board to return home to Calamba from Biñan?", options: ["Bapor Tabo", "Talim", "España", "Isla de Panay"], answer: 1 },
+    { q: "Who was Arturo Camps, the man who accompanied Jose during his boat trip back to Calamba?", options: ["A Spanish civil guard officer", "A French friend of Jose's father", "A Dominican friar from UST", "A classmate’s older brother from Biñan"], answer: 1 },
+    { q: "Why did Maestro Justiniano advise Jose in December 1870 that it was time for him to leave the school in Biñan?", options: ["Because Jose was expelled for getting into too many fights.", "Because Jose had already learned everything the school could teach him.", "Because the school was closing down due to lack of funds.", "Because Jose's parents could no longer afford the tuition fees."], answer: 1 },
+    { q: "In 1871, Doña Teodora was falsely accused of attempting to poison which family member?", options: ["Her husband, Don Francisco", "Her brother’s estranged wife, Teodora Formoso", "The mayor of Calamba, Antonio Vivencio del Rosario", "Her sister-in-law, Tia Tomasa"], answer: 1 },
+    { q: "As part of her cruel punishment before being imprisoned, how far was Doña Teodora forced to walk barefoot by Spanish authorities?", options: ["10 kilometers from Calamba to Biñan", "50 kilometers from Calamba to the provincial jail in Santa Cruz", "100 kilometers from Laguna to Manila", "25 kilometers from Calamba to Los Baños"], answer: 1 },
+    { q: "How long was Doña Teodora imprisoned before being fully acquitted by the Supreme Court (Audiencia)?", options: ["6 months", "1 year", "2 ½ years", "5 years"], answer: 2 },
+    { q: "The martyrdom of the three priests—Gomez, Burgos, and Zamora (GOMBURZA)—on February 17, 1872, deeply affected the Rizal family primarily because:", options: ["Father Burgos was a close friend, teacher, and housemate of Jose's brother, Paciano.", "Father Gomez was Jose's godfather during his baptism.", "The execution took place inside the town square of Calamba.", "Don Francisco was arrested alongside the three priests."], answer: 0 },
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+    // Chapter 4
+    { q: "What was the former name of Ateneo Municipal before it was handed over to the Jesuits?", options: ["Colegio de San Juan de Letran", "Escuela Pia (Charity School)", "Universidad de San Ignacio", "Colegio de Santa Rosa"], answer: 1 },
+    { q: "Why was Jose Rizal initially refused admission to Ateneo Municipal by the registrar, Father Magin Ferrando?", options: ["He failed the entrance examinations in Christian Doctrine and Spanish.", "He was sickly, undersized for his age, and arrived late for registration.", "His mother was still in prison in Santa Cruz, Laguna.", "His father had not paid the required enrolment fees."], answer: 1 },
+    { q: "Who intervened and helped Jose get accepted into Ateneo Municipal despite the registrar's initial rejection?", options: ["Manuel Xerez Burgos (nephew of Father Jose Burgos)", "Father Francisco de Paula Sanchez", "Father Jose Bech", "Paciano Rizal"], answer: 0 },
+    { q: "Why did Jose use the surname \"Rizal\" for the first time when he registered at Ateneo?", options: ["His father ordered him to do so because the surname \"Mercado\" had become suspicious to Spanish authorities due to Paciano's ties to Father Burgos.", "The Jesuits required all new students to adopt a Spanish surname.", "He wanted to hide his identity from his former classmates in Biñan.", "The Governor-General issued a decree forcing his family to change names."], answer: 0 },
+    { q: "How were the students divided inside the classroom under the Jesuit educational system at Ateneo?", options: ["Into Peninsulares (Spanish-born) and Indios (Filipinos)", "Into two \"Empires\": the Roman Empire (internos/boarders) and the Carthaginian Empire (externos/non-boarders)", "Into the Athenians and the Spartans", "Into Seniors and Juniors based on age"], answer: 1 },
+    { q: "What was the highest rank or title awarded to the best student within an \"Empire\" at Ateneo?", options: ["Centurion", "Tribune", "Emperor", "Decurion"], answer: 2 },
+    { q: "Who was Jose Rizal's first professor at Ateneo, described as a \"tall, thin man, with a body slightly bent forward\"?", options: ["Father Francisco de Paula Sanchez", "Father Jose Bech", "Father Magin Ferrando", "Father Pablo Ramon"], answer: 1 },
+    { q: "What was the color of the uniform worn by Ateneo students in Rizal’s time, which consisted of hemp-fabric trousers and a striped cotton coat?", options: ["Pure white", "Rayadillo", "Dark navy blue", "Khaki"], answer: 1 },
+    { q: "During his second year at Ateneo (1873–1874), what famous series of historical novels by Alexander Dumas did Jose read and deeply admire?", options: ["Les Misérables", "The Count of Monte Cristo", "Don Quixote", "The Three Musketeers"], answer: 1 },
+    { q: "Which Jesuit priest did Rizal consider his finest professor, describing him as a \"model of uprightness, earnestness, and love for the advancement of his pupils\"?", options: ["Father Jose Bech", "Father Francisco de Paula Sanchez", "Father Magin Ferrando", "Father Jose Vilaclara"], answer: 1 },
+    { q: "What religious society at Ateneo was Rizal a member of, eventually becoming its Secretary due to his exemplary devotion?", options: ["Knights of Columbus", "Academy of Spanish Literature", "Marian Congregation (Sodality of Our Lady)", "Brotherhood of the Holy Sepulchre"], answer: 2 },
+    { q: "Under whose guidance did Rizal carve the famous image of the Sacred Heart of Jesus using a pocket knife on a piece of batikuling wood?", options: ["Romualdo de Jesus", "Father Lleonart", "Don Augustin Saez", "Maestro Justiniano"], answer: 1 },
+    { q: "What was the title of the poem written by Rizal in 1875 upon the request of his mother, expressing her joy over her release from prison?", options: ["Un Recuerdo a Mi Pueblo", "Mi Primera Inspiracion (My First Inspiration)", "A La Juventud Filipina", "Al Niño Jesus"], answer: 1 },
+    { q: "On March 23, 1877, Jose Rizal graduated from Ateneo Municipal at the age of 15. What diploma degree did he receive?", options: ["Doctor of Medicine", "Bachelor of Arts (Bachiller en Artes)", "Licentiate in Philosophy", "Surveyor and Agricultural Expert"], answer: 1 },
+    { q: "What final academic rating/grade did Rizal achieve in ALL his subjects upon graduating from Ateneo Municipal?", options: ["Aprobado (Passed)", "Bueno (Good)", "Sobresaliente (Excellent)", "Meritissimo (Very Good)"], answer: 2 },
+
+    // Chapter 5
+    { q: "What was Doña Teodora’s initial reaction when Don Francisco decided to send Jose to the University of Santo Tomas for higher studies?", options: ["She strongly opposed it, fearing Jose would end up executed like the GOMBURZA if he learned more.", "She was overjoyed and pledged to accompany him to Manila.", "She urged him to become a priest instead.", "She insisted he study in Spain immediately."], answer: 0 },
+    { q: "What was Jose Rizal's first course upon enrolling at the University of Santo Tomas in April 1877?", options: ["Medicine", "Philosophy and Letters", "Law", "Pharmacy"], answer: 1 },
+    { q: "What primary event made Rizal decide to switch to the course of Medicine in his second year (1878–1879) at UST?", options: ["A decree issued by the Governor-General requiring all top scholars to study Medicine.", "His desire to cure his mother’s failing eyesight caused by cataracts.", "The advice of his favorite professor, Father Francisco de Paula Sanchez.", "His dream of opening a clinic in Calamba."], answer: 1 },
+    { q: "While studying at UST, what vocational course did Rizal concurrently take at Ateneo Municipal, earning him gold medals in topography and agriculture?", options: ["Surveying (Perito Agrimensor)", "Fine Arts and Painting", "Bookkeeping and Accounting", "Military Science"], answer: 0 },
+    { q: "Why was Jose unable to officially receive his title as Perito Agrimensor (Expert Surveyor) right after passing his exams in 1878?", options: ["He failed to submit his final thesis on land distribution.", "He was under 20 years old at the time (the legal age requirement).", "The Jesuits withheld his title until he finished his UST degree.", "His family was unable to pay the graduation fees."], answer: 1 },
+    { q: "Who was Segunda Katigbak’s fiancé, whom she eventually married after returning to Lipa, Batangas?", options: ["Antonio Rivera", "Manuel Luz", "Galicano Apacible", "Mariano Katigbak"], answer: 1 },
+    { q: "Where did Rizal stay during his second year until his final year at UST, owned and managed by his uncle Antonio Rivera?", options: ["House of Titay on Caraballo Street", "House of Doña Concha Leyva in Intramuros", "Casa Tomasina at No. 6 Calle Santo Tomas", "Colegio de La Concordia"], answer: 2 },
+    { q: "What secret pseudonym did Jose Rizal and Leonor Rivera use in their love letters to conceal their romantic relationship?", options: ["\"Orang\" and \"Pepe\"", "\"Taimis\" and \"Jose\"", "\"Laong Laan\" and \"Dimasalang\"", "\"Miss L\" and \"Manong\""], answer: 1 },
+    { q: "How did Rizal write his secret love letters to Leonor Valenzuela (\"Orang\") so that only she could read them?", options: ["Using a secret cipher code given by Paciano.", "Using invisible ink made of common salt and water that revealed text when held over a lamp.", "Writing in backward Latin script.", "Using lemon juice and feather pens."], answer: 1 },
+    { q: "What happened to Rizal in Calamba during the summer vacation of 1878 when he failed to recognize and salute a Lieutenant of the Guardia Civil in the dark?", options: ["He was arrested and jailed in Santa Cruz for three months.", "He was slashed across the back with a sword by the officer.", "He was challenged to a duel the following morning.", "He was fined fifty pesos by the Governorcillo."], answer: 1 },
+    { q: "In 1879, Rizal won first prize in a literary contest held by the Liceo Artistico-Literario for his poem A La Juventud Filipina. What prize did he receive?", options: ["A gold ring with the engraved face of Cervantes", "A feather-shaped silver pen with a gold ribbon", "A scholarship to study in Madrid", "A collection of classical literature books"], answer: 1 },
+    { q: "Why is the poem A La Juventud Filipina considered a landmark in Philippine literature?", options: ["It was the first poem written by an Indio using rhymed Tagalog verse.", "It was the first time a Filipino publically addressed youth as the \"fair hope of my Fatherland.\"", "It openly called for an armed revolution against Spain.", "It was translated into six European languages."], answer: 1 },
+    { q: "In 1880, Rizal won first prize for his allegorical play El Consejo de los Dioses. Why was there an outrage among Spanish spectators during the awarding?", options: ["Rizal criticized the Catholic Church inside the play.", "They discovered the winner was an \"Indio\" (Filipino) whose score beat Spanish writers.", "Rizal failed to attend the ceremony in person.", "The play was written in Tagalog instead of Spanish."], answer: 1 },
+    { q: "What secret society of Filipino students at UST was founded by Rizal in 1880 to protect themselves against hostile Spanish students?", options: ["Katipunan", "Compañerismo (The Companionship)", "La Liga Filipina", "Circulo Hispano-Filipino"], answer: 1 },
+    { q: "Which of the following was NOT a major reason why Rizal decided to leave UST and continue his medical studies in Spain in 1882?", options: ["The Dominican professors were hostile and discriminatory toward Filipino students.", "The teaching methods were outdated and repressive.", "He was expelled from UST for leading a student riot.", "He wanted to specialize in ophthalmology abroad to cure his mother's blindness."], answer: 2 },
+
+    // Chapter 6
+    { q: "What was the \"secret mission\" of Jose Rizal in traveling to Europe, which was agreed upon with his brother Paciano?", options: ["To purchase modern weapons for a planned armed revolution in Calamba.", "To observe the life, culture, laws, and governments of European nations in order to prepare himself for liberating his oppressed people.", "To seek asylum from the Spanish King against the Dominican friars.", "To establish a medical clinic in Madrid to support his family financially."], answer: 1 },
+    { q: "What alias/passport name did Jose Rizal use when he left Manila for Spain to avoid detection by Spanish authorities and friars?", options: ["Dimasalang", "Jose Mercado", "Laong Laan", "Pepe Realonda"], answer: 1 },
+    { q: "On May 3, 1882, what Spanish steamer did Rizal board from Manila bound for Singapore?", options: ["Djemnah", "Salvadora", "Isla de Panay", "Colombo"], answer: 1 },
+    { q: "During his stopover in Singapore, at which hotel did Rizal stay for two days to sightsee the city?", options: ["Raffles Hotel", "Hotel de La Paz", "Hotel de Paris", "Grand Hotel"], answer: 1 },
+    { q: "At Point de Galle, Ceylon (now Sri Lanka), how did Rizal describe the town in his diary?", options: ["\"A bustling, vibrant metropolis of trade\"", "\"A picturesque but lonely, quiet, and sad town\"", "\"The most beautiful seaport in Asia\"", "\"A hot and overcrowded fortress\""], answer: 1 },
+    { q: "What was the first nationalistic essay written by Rizal on European soil, published in Basilio Teodoro Moran’s newspaper Diariong Tagalog?", options: ["A La Juventud Filipina", "Amor Patrio (Love of Country)", "Los Viajes (Travels)", "Revista de Madrid"], answer: 1 },
+    { q: "Who translated Rizal’s essay Amor Patrio into Tagalog for publication in the Diariong Tagalog?", options: ["Marcelo H. del Pilar", "Paciano Rizal", "Pedro Paterno", "Graciano Lopez Jaena"], answer: 0 },
+    { q: "Upon arriving in Madrid in November 1882, in which prestigious university did Rizal enroll to pursue courses in Medicine and Philosophy and Letters?", options: ["Universidad de Barcelona", "Universidad Central de Madrid", "Universidad de Salamanca", "Universidad de Sevilla"], answer: 1 },
+    { q: "In Madrid, Rizal joined a society of Spaniards and Filipinos advocating reforms for the Philippines. What was the name of this organization?", options: ["Compañerismo", "Circulo Hispano-Filipino", "La Liga Filipina", "Katipunan"], answer: 1 },
+    { q: "Who was the daughter of Don Pablo Ortiga y Rey (former City Mayor of Manila) with whom Rizal had a brief romance while in Madrid?", options: ["Segunda Katigbak", "Consuelo Ortiga y Perez", "Leonor Rivera", "Gertrude Beckett"], answer: 1 },
+    { q: "Why did Rizal deliberately step back and stop his romance with Consuelo Ortiga y Perez?", options: ["He was ordered by Paciano to focus strictly on his studies.", "He was still engaged to Leonor Rivera, and his friend Eduardo de Lete was deeply in love with Consuelo.", "Consuelo’s father forbade her from dating an Indio.", "Consuelo decided to enter the convent."], answer: 1 },
+    { q: "In 1883, Rizal joined the Masonic lodge Acacia in Madrid. What was his primary motive for becoming a Freemason?", options: ["To gain financial loans to publish his novels.", "To secure the aid of international Freemasons in his fight against the abusive friars in the Philippines.", "To abandon his Catholic faith completely.", "To learn political military strategies."], answer: 1 },
+    { q: "On June 25, 1884, Rizal delivered a famous banquet speech (Brindis) at Restaurant Ingles to celebrate the double artistic victory of which two Filipino painters?", options: ["Juan Luna (Spoliarium) and Felix Resurreccion Hidalgo (Virgenes Cristianas Expuestas al Populacho)", "Antonio Luna and Fernando Amorsolo", "Juan Luna and Damian Domingo", "Felix Resurreccion Hidalgo and Jose Honorato Lozano"], answer: 0 },
+    { q: "In his famous Brindis speech in 1884, what key idea did Rizal emphasize regarding human genius?", options: ["Genius can only flourish under European education.", "Genius is not the exclusive monopoly of any race, as both Spain and the Philippines produce great minds.", "Genius requires total independence from religious doctrine.", "Genius is inherited solely from noble ancestors."], answer: 1 },
+    { q: "In June 1885, Rizal completed his studies at Universidad Central de Madrid and was awarded the degree of Licentiate in Medicine. Why was he NOT granted his formal Doctor’s diploma?", options: ["He failed his final clinical examination in surgery.", "He did not present his doctoral thesis and failed to pay the required diploma fees.", "The Spanish government revoked his degree due to his speech at the banquet.", "He chose not to attend the graduation ceremony."], answer: 1 }
+];
+
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+let answeredCount = 0;
+let hasAnsweredCurrent = false;
+
+function shuffleArray(array) {
+    let arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
+}
 
-    function initQuiz(targetBank) {
-        activeQuestions = shuffleArray(JSON.parse(JSON.stringify(targetBank)));
-        currentIndex = 0;
-        score = 0;
-        wrongPool = [];
-        hasAnsweredCurrent = false;
-        renderQuestion();
-    }
+function initQuiz() {
+    questions = shuffleArray(rawQuestions);
+    currentIndex = 0;
+    score = 0;
+    answeredCount = 0;
+    hasAnsweredCurrent = false;
 
-    function renderQuestion() {
-        const container = document.getElementById("quiz-window");
-        if (currentIndex >= activeQuestions.length) {
-            renderResults();
-            return;
-        }
+    document.getElementById('total-questions').innerText = questions.length;
+    document.getElementById('answered-count').innerText = answeredCount;
+    document.getElementById('score-display').innerText = score;
+    document.getElementById('footer-bar').style.display = 'flex';
 
-        hasAnsweredCurrent = false;
-        const currentQ = activeQuestions[currentIndex];
+    loadQuestion();
+}
 
-        container.innerHTML = `
-            <div class="stats-hud">
-                <span>Progress: ${currentIndex + 1} / ${activeQuestions.length}</span>
-                <span>Correct: ${score}</span>
-            </div>
-            <div class="question-text">${escapeHtml(currentQ.q)}</div>
-            <div class="options-container" id="options-box">
-                ${currentQ.options.map((opt, idx) => `
-                    <div class="option-node" id="opt-${idx}" onclick="handleOptionSelection(${idx})">
-                        <strong>${String.fromCharCode(65 + idx)}.</strong> ${escapeHtml(opt)}
-                    </div>
-                `).join('')}
-            </div>
-            <div class="feedback-box" id="feedback-node"></div>
-            <div class="action-area" id="action-node"></div>
-        `;
-    }
+function loadQuestion() {
+    hasAnsweredCurrent = false;
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('next-btn').disabled = true;
 
-    function handleOptionSelection(selectedIndex) {
-        if (hasAnsweredCurrent) return;
-        hasAnsweredCurrent = true;
+    const currentQ = questions[currentIndex];
+    document.getElementById('question-text').innerText = `${currentIndex + 1}. ${currentQ.q}`;
 
-        const currentQ = activeQuestions[currentIndex];
-        const feedbackNode = document.getElementById("feedback-node");
-        const actionNode = document.getElementById("action-node");
-        const nodes = document.querySelectorAll(".option-node");
+    const optionsGrid = document.getElementById('options-grid');
+    optionsGrid.innerHTML = '';
 
-        nodes.forEach((node, idx) => {
-            if (idx !== selectedIndex && idx !== currentQ.answer) {
-                node.classList.add("disabled");
-            }
-        });
-
-        if (selectedIndex === currentQ.answer) {
-            document.getElementById(`opt-${selectedIndex}`).classList.add("correct");
-            feedbackNode.className = "feedback-box correct";
-            feedbackNode.innerHTML = `<strong>🟢 Correct!</strong> ${escapeHtml(currentQ.feedback)}`;
-            score++;
-            // Update HUD score immediately
-            document.querySelector(".stats-hud").innerHTML = `
-                <span>Progress: ${currentIndex + 1} / ${activeQuestions.length}</span>
-                <span>Correct: ${score}</span>
-            `;
-        } else {
-            document.getElementById(`opt-${selectedIndex}`).classList.add("wrong");
-            document.getElementById(`opt-${currentQ.answer}`).classList.add("correct");
-            feedbackNode.className = "feedback-box wrong";
-            feedbackNode.innerHTML = `<strong>🔴 Incorrect.</strong> ${escapeHtml(currentQ.feedback)}`;
-            
-            if (!wrongPool.some(item => item.q === currentQ.q)) {
-                wrongPool.push(currentQ);
-            }
-        }
-
-        // Display the navigation action button
-        actionNode.innerHTML = `<button id="next-btn" onclick="moveToNextQuestion()">Next Question (Enter)</button>`;
-        document.getElementById("next-btn").focus();
-    }
-
-    function moveToNextQuestion() {
-        currentIndex++;
-        renderQuestion();
-    }
-
-    // Capture Enter key interactions
-    window.addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            const nextButton = document.getElementById("next-btn");
-            if (nextButton) {
-                event.preventDefault();
-                nextButton.click();
-            }
-        }
+    currentQ.options.forEach((optionText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = optionText;
+        btn.onclick = () => selectOption(idx);
+        optionsGrid.appendChild(btn);
     });
+}
 
-    function renderResults() {
-        const container = document.getElementById("quiz-window");
-        const basePct = Math.round((score / activeQuestions.length) * 100);
+function selectOption(selectedIdx) {
+    if (hasAnsweredCurrent) return;
+    hasAnsweredCurrent = true;
 
-        container.innerHTML = `
-            <div class="results-view">
-                <div class="score-circle">${basePct}%</div>
-                <p style="margin-bottom: 25px; font-size: 1.1rem;">You successfully cleared <strong>${score}</strong> out of <strong>${activeQuestions.length}</strong> items.</p>
-                <div style="display: flex; gap: 15px; justify-content: center;">
-                    <button onclick="restartGlobal()">Full Reset Simulator</button>
-                    ${wrongPool.length > 0 ? `<button class="btn-secondary" onclick="startWrongPoolReview()">Review Incorrect Items (${wrongPool.length})</button>` : ''}
-                </div>
-            </div>
-        `;
+    const currentQ = questions[currentIndex];
+    const optionsGrid = document.getElementById('options-grid');
+    const buttons = optionsGrid.children;
+    const feedback = document.getElementById('feedback');
+
+    answeredCount++;
+    document.getElementById('answered-count').innerText = answeredCount;
+
+    if (selectedIdx === currentQ.answer) {
+        score++;
+        document.getElementById('score-display').innerText = score;
+        buttons[selectedIdx].classList.add('correct');
+        feedback.innerHTML = '<span class="feedback-correct">✓ Correct!</span>';
+    } else {
+        buttons[selectedIdx].classList.add('wrong');
+        buttons[currentQ.answer].classList.add('correct');
+        feedback.innerHTML = `<span class="feedback-wrong">✗ Incorrect. Correct answer: ${currentQ.options[currentQ.answer]}</span>`;
     }
 
-    function restartGlobal() {
-        isReviewMode = false;
-        initQuiz(masterBank);
+    for (let btn of buttons) {
+        btn.disabled = true;
     }
 
-    function startWrongPoolReview() {
-        const nextTarget = [...wrongPool];
-        isReviewMode = true;
-        initQuiz(nextTarget);
-    }
+    document.getElementById('next-btn').disabled = false;
+}
 
-    function escapeHtml(text) {
-        return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+function nextQuestion() {
+    if (!hasAnsweredCurrent) return;
 
-    initQuiz(masterBank);
+    currentIndex++;
+    if (currentIndex < questions.length) {
+        loadQuestion();
+    } else {
+        showCompletionScreen();
+    }
+}
+
+function showCompletionScreen() {
+    const quizBody = document.getElementById('quiz-body');
+    document.getElementById('footer-bar').style.display = 'none';
+
+    const percentage = Math.round((score / questions.length) * 100);
+
+    quizBody.innerHTML = `
+        <div class="completion-screen">
+            <h2>Quiz Completed!</h2>
+            <p>You scored <strong>${score}</strong> out of <strong>${questions.length}</strong> (${percentage}%).</p>
+            <button class="restart-btn" onclick="initQuiz()">Try Again (Reshuffle)</button>
+        </div>
+    `;
+}
+
+document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        if (hasAnsweredCurrent && currentIndex < questions.length) {
+            nextQuestion();
+        }
+    }
+});
+
+// Start the quiz on load
+initQuiz();
 </script>
-
 </body>
 </html>
