@@ -1,288 +1,1766 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>INTE 30073 Mock Quiz — 120 Items</title>
-<style>
-  :root{
-    --bg:#f5f6fa; --card:#ffffff; --text:#1c1e26; --muted:#666b78;
-    --accent:#4f5bd5; --accent2:#7c3aed; --good:#1f9d55; --bad:#d64545;
-    --border:#e3e5ec; --shadow: 0 8px 24px rgba(20,20,40,0.08);
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#14151c; --card:#1d1f29; --text:#eef0f6; --muted:#9aa0b4;
-      --accent:#7c86f5; --accent2:#a97cf0; --good:#37c073; --bad:#f06868;
-      --border:#2b2e3a; --shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#14151c; --card:#1d1f29; --text:#eef0f6; --muted:#9aa0b4;
-    --accent:#7c86f5; --accent2:#a97cf0; --good:#37c073; --bad:#f06868;
-    --border:#2b2e3a; --shadow: 0 8px 24px rgba(0,0,0,0.4);
-  }
-  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    min-height:100%;
-  }
-  .wrap{max-width:640px; margin:0 auto; padding:24px 18px 60px;}
-  h1{font-size:1.15rem; margin:0 0 4px; text-align:center;}
-  .sub{color:var(--muted); text-align:center; font-size:0.85rem; margin-bottom:20px;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTE 30073 - MAC Midterm Reviewer (Dark Mode)</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --primary: #d32f2f; /* Deep Crimson / PUP Maroon */
+            --primary-hover: #b71c1c;
+            --accent: #ffb300;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border: #333333;
+            --success-bg: #1b4d2e;
+            --success-text: #81c784;
+            --danger-bg: #4c1d1d;
+            --danger-text: #e57373;
+            --input-bg: #2a2a2a;
+        }
 
-  .setup{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; box-shadow:var(--shadow);}
-  .setup h2{margin-top:0; font-size:1rem;}
-  .opt-grid{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px;}
-  .chip{
-    padding:8px 14px; border-radius:999px; border:1px solid var(--border);
-    background:var(--bg); color:var(--text); cursor:pointer; font-size:0.85rem;
-    user-select:none;
-  }
-  .chip.active{background:var(--accent); border-color:var(--accent); color:#fff;}
-  .row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:14px 0;}
-  .switch{position:relative; width:46px; height:26px; flex:none;}
-  .switch input{opacity:0; width:0; height:0;}
-  .slider{position:absolute; inset:0; background:var(--border); border-radius:999px; transition:.15s; cursor:pointer;}
-  .slider:before{content:""; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.15s;}
-  input:checked + .slider{background:var(--accent);}
-  input:checked + .slider:before{transform:translateX(20px);}
-  .start-btn{
-    width:100%; padding:14px; border:none; border-radius:12px; margin-top:10px;
-    background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#fff;
-    font-size:1rem; font-weight:600; cursor:pointer;
-  }
-  .start-btn:active{opacity:0.85;}
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-  .progress-wrap{margin-bottom:14px;}
-  .progress-bar{height:8px; background:var(--border); border-radius:999px; overflow:hidden;}
-  .progress-fill{height:100%; background:linear-gradient(135deg, var(--accent), var(--accent2)); width:0%; transition:width .25s;}
-  .progress-label{display:flex; justify-content:space-between; font-size:0.78rem; color:var(--muted); margin-top:6px;}
+        .quiz-container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+        }
 
-  .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; box-shadow:var(--shadow);}
-  .section-tag{
-    display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:.04em;
-    text-transform:uppercase; color:var(--accent); background:rgba(79,91,213,0.12);
-    padding:4px 10px; border-radius:999px; margin-bottom:12px;
-  }
-  .prompt{font-size:1.05rem; line-height:1.45; margin:0 0 18px;}
-  .choice{
-    display:block; width:100%; text-align:left; padding:13px 14px; margin-bottom:10px;
-    border:1px solid var(--border); border-radius:12px; background:var(--bg); color:var(--text);
-    font-size:0.95rem; cursor:pointer; transition:.12s;
-  }
-  .choice:active{transform:scale(0.99);}
-  .choice.correct{border-color:var(--good); background:rgba(31,157,85,0.14); font-weight:600;}
-  .choice.incorrect{border-color:var(--bad); background:rgba(214,69,69,0.14); font-weight:600;}
-  .choice[disabled]{cursor:default;}
-  .rationale{
-    margin-top:14px; padding:12px 14px; border-radius:12px; background:var(--bg);
-    border:1px solid var(--border); font-size:0.85rem; color:var(--muted); display:none;
-  }
-  .rationale.show{display:block;}
-  .nav-row{display:flex; justify-content:flex-end; margin-top:16px;}
-  .next-btn{
-    padding:11px 22px; border:none; border-radius:12px; background:var(--accent); color:#fff;
-    font-size:0.95rem; font-weight:600; cursor:pointer; display:none;
-  }
-  .next-btn.show{display:inline-block;}
+        header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
 
-  .score-badge{
-    position:fixed; top:calc(14px + env(safe-area-inset-top, 0px)); right:14px;
-    background:var(--card); border:1px solid var(--border); border-radius:999px;
-    padding:6px 12px; font-size:0.8rem; font-weight:600; box-shadow:var(--shadow);
-  }
+        h1 {
+            color: #ffffff;
+            margin: 0 0 5px 0;
+            font-size: 1.6rem;
+        }
 
-  .end-card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:26px; box-shadow:var(--shadow); text-align:center;}
-  .end-score{font-size:2.2rem; font-weight:700; margin:6px 0;}
-  .review-list{text-align:left; margin-top:20px; max-height:320px; overflow-y:auto;}
-  .review-item{padding:10px 0; border-bottom:1px solid var(--border); font-size:0.85rem;}
-  .review-item b{color:var(--bad);}
-  .restart-btn{
-    margin-top:18px; padding:12px 24px; border:none; border-radius:12px;
-    background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#fff;
-    font-size:0.95rem; font-weight:600; cursor:pointer;
-  }
-  .hidden{display:none !important;}
-</style>
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Mode Selection Screen */
+        .setup-card {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .btn-filter {
+            background-color: var(--input-bg);
+            border: 1.5px solid var(--border);
+            color: var(--text-main);
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-filter:hover {
+            border-color: var(--primary);
+            background-color: #333333;
+            transform: translateY(-2px);
+        }
+
+        .btn-filter span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        /* Stats & Progress */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            height: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            background: #262626;
+            padding: 12px 18px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        /* Question Cards */
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            background: #181818;
+        }
+
+        .card-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-option {
+            background-color: var(--input-bg);
+            border: 1.5px solid var(--border);
+            padding: 14px 18px;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+        }
+
+        .btn-option:hover:not([disabled]) {
+            background-color: #383838;
+            border-color: #555555;
+        }
+
+        .btn-option.selected {
+            border-color: var(--primary);
+            background-color: #2c1a1a;
+        }
+
+        .btn-option.correct {
+            background-color: var(--success-bg) !important;
+            border-color: var(--success-text) !important;
+            color: #ffffff !important;
+            font-weight: bold;
+        }
+
+        .btn-option.incorrect {
+            background-color: var(--danger-bg) !important;
+            border-color: var(--danger-text) !important;
+            color: #ffffff !important;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            background-color: var(--input-bg);
+            border: 1.5px solid var(--border);
+            color: #ffffff;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .matching-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+        }
+
+        select {
+            padding: 12px;
+            font-size: 0.95rem;
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border-radius: 6px;
+            border: 1.5px solid var(--border);
+            width: 100%;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-text);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: var(--danger-bg);
+            color: var(--danger-text);
+            border: 1px solid var(--danger-text);
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-control {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-control:hover:not([disabled]) {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-control:disabled {
+            background-color: #444444;
+            color: #888888;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #333333;
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background-color: #444444;
+        }
+
+        .summary-card {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .score-display {
+            font-size: 3.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 15px;
+            }
+            .matching-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>INTE 30073 — Systems Administration &amp; Maintenance</h1>
-  <div class="sub">One-by-one mock quiz · 120 items · tricky multiple choice</div>
 
-  <div id="setup" class="setup">
-    <h2>Choose what to practice</h2>
-    <div class="opt-grid" id="sectionChips"></div>
-    <div class="row">
-      <span>Shuffle question order</span>
-      <label class="switch"><input type="checkbox" id="shuffleToggle" checked><span class="slider"></span></label>
-    </div>
-    <div class="row">
-      <span>Shuffle answer positions</span>
-      <label class="switch"><input type="checkbox" id="shuffleOptToggle" checked><span class="slider"></span></label>
-    </div>
-    <button class="start-btn" id="startBtn">Start Quiz</button>
-  </div>
+<div class="quiz-container">
+    <header>
+        <h1>INTE 30073: Midterm Reviewer</h1>
+        <div class="subtitle">Systems Administration and Maintenance (Chapters 1 - 8)</div>
+    </header>
 
-  <div id="quizArea" class="hidden">
-    <div class="progress-wrap">
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-label"><span id="progressText">1 / 120</span><span id="scoreText">Score: 0</span></div>
-    </div>
-    <div class="card">
-      <span class="section-tag" id="sectionTag"></span>
-      <p class="prompt" id="promptText"></p>
-      <div id="choicesWrap"></div>
-      <div class="rationale" id="rationaleBox"></div>
-      <div class="nav-row"><button class="next-btn" id="nextBtn">Next →</button></div>
-    </div>
-  </div>
+    <!-- START / MODE SELECTION SCREEN -->
+    <div id="start-screen" class="setup-card">
+        <h2>Select Question Mode</h2>
+        <p class="subtitle">Choose a specific question type or attempt the full 120-question midterm coverage:</p>
 
-  <div id="endArea" class="hidden">
-    <div class="end-card">
-      <div>You scored</div>
-      <div class="end-score" id="finalScore">0 / 120</div>
-      <div id="finalPct" style="color:var(--muted);"></div>
-      <div class="review-list" id="reviewList"></div>
-      <button class="restart-btn" id="restartBtn">Try Again</button>
+        <div class="filter-grid">
+            <button class="btn-filter" onclick="startQuiz('all')">
+                All Question Types
+                <span>Full Exam • 120 Questions</span>
+            </button>
+            <button class="btn-filter" onclick="startQuiz('mc')">
+                Multiple Choice
+                <span>Concept & Application • 40 Questions</span>
+            </button>
+            <button class="btn-filter" onclick="startQuiz('ident')">
+                Identification
+                <span>Terms & Commands • 30 Questions</span>
+            </button>
+            <button class="btn-filter" onclick="startQuiz('tf')">
+                Modified True or False
+                <span>True/False Verification • 30 Questions</span>
+            </button>
+            <button class="btn-filter" onclick="startQuiz('match')">
+                Matching Type
+                <span>Pairing Concepts • 2 Sets (20 Items)</span>
+            </button>
+        </div>
     </div>
-  </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen" style="display: none;">
+        <div class="stats-panel">
+            <span id="question-number">Question 1</span>
+            <span id="score-counter">Score: 0 / 0</span>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="question-type">Multiple Choice</div>
+            <div class="question-text" id="question-text">Loading question...</div>
+            <div id="answer-area"></div>
+            <div id="feedback" class="feedback"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-control btn-secondary" onclick="exitToModeSelect()">Menu</button>
+            <button class="btn-control" id="btn-submit" onclick="submitAnswer()">Submit Answer</button>
+            <button class="btn-control" id="btn-next" onclick="nextQuestion()" style="display: none;">Next Question</button>
+        </div>
+    </div>
+
+    <!-- SUMMARY SCREEN -->
+    <div id="summary-screen" style="display: none;">
+        <div class="summary-card">
+            <h2>Mode Completed!</h2>
+            <p>Here is your performance summary for the selected reviewer mode:</p>
+            <div class="score-display" id="final-score">0 / 0</div>
+            <p id="performance-feedback" class="subtitle"></p>
+            <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: center;">
+                <button class="btn-control btn-secondary" onclick="exitToModeSelect()">Back to Menu</button>
+                <button class="btn-control" onclick="restartCurrentQuiz()">Restart Mode</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-const BANK = [{"section":"Identification","prompt":"The principle that ensures an operation yields the same result whether executed once or multiple times.","options":["Idempotency","Server OS","Principle of Least Privilege (PoLP)","Systems Administration"],"answer":"Idempotency","rationale":""},{"section":"Identification","prompt":"Granting users and processes only the minimum access rights necessary to perform their functions.","options":["Principle of Least Privilege (PoLP)","Systems Administration","Idempotency","Server OS"],"answer":"Principle of Least Privilege (PoLP)","rationale":""},{"section":"Identification","prompt":"Managing and provisioning infrastructure through machine-readable definition files rather than manual configuration.","options":["Principle of Least Privilege (PoLP)","Systems Administration","Infrastructure as Code (IaC)","KISS (Keep It Simple, Stupid)"],"answer":"Infrastructure as Code (IaC)","rationale":""},{"section":"Identification","prompt":"The design principle that avoids unnecessary complexity in system architecture to reduce failure points.","options":["Idempotency","KISS (Keep It Simple, Stupid)","Systems Administration","Infrastructure as Code (IaC)"],"answer":"KISS (Keep It Simple, Stupid)","rationale":""},{"section":"Identification","prompt":"The discipline of designing, configuring, maintaining, and supporting reliable computer systems and multi-user environments.","options":["Principle of Least Privilege (PoLP)","Systems Administration","KISS (Keep It Simple, Stupid)","Idempotency"],"answer":"Systems Administration","rationale":""},{"section":"Identification","prompt":"An OS type optimized for background services, network operations, and high throughput rather than desktop graphics.","options":["Server OS","Systems Administration","Infrastructure as Code (IaC)","Idempotency"],"answer":"Server OS","rationale":""},{"section":"Identification","prompt":"The hardware test that runs at power-on, before the bootloader, to check components and scan boot media.","options":["POST (Power-On Self-Test)","systemd","init","EFI System Partition (ESP)"],"answer":"POST (Power-On Self-Test)","rationale":""},{"section":"Identification","prompt":"The program loaded from the ESP or MBR that loads the kernel image and initramfs into RAM.","options":["Initramfs","vmlinuz (Linux kernel image)","EFI System Partition (ESP)","Bootloader (GRUB2)"],"answer":"Bootloader (GRUB2)","rationale":""},{"section":"Identification","prompt":"The partition that stores bootloader files on UEFI systems.","options":["multi-user.target","Master Boot Record (MBR)","PID 1","EFI System Partition (ESP)"],"answer":"EFI System Partition (ESP)","rationale":""},{"section":"Identification","prompt":"The legacy boot-sector structure at the start of a disk containing the bootloader on BIOS systems.","options":["systemd","Master Boot Record (MBR)","Bootloader (GRUB2)","multi-user.target"],"answer":"Master Boot Record (MBR)","rationale":""},{"section":"Identification","prompt":"The compressed kernel image that uncompresses itself and initializes the processor architecture and drivers.","options":["systemd","vmlinuz (Linux kernel image)","EFI System Partition (ESP)","POST (Power-On Self-Test)"],"answer":"vmlinuz (Linux kernel image)","rationale":""},{"section":"Identification","prompt":"The temporary root filesystem loaded into RAM that holds the drivers needed to mount the real root filesystem.","options":["Master Boot Record (MBR)","Bootloader (GRUB2)","Initramfs","EFI System Partition (ESP)"],"answer":"Initramfs","rationale":""},{"section":"Identification","prompt":"The modern Linux service manager that runs as PID 1 and resolves target-unit dependencies.","options":["Master Boot Record (MBR)","POST (Power-On Self-Test)","systemd","PID 1"],"answer":"systemd","rationale":""},{"section":"Identification","prompt":"The process ID always assigned to the first user-space process started by the kernel.","options":["multi-user.target","POST (Power-On Self-Test)","Bootloader (GRUB2)","PID 1"],"answer":"PID 1","rationale":""},{"section":"Identification","prompt":"A systemd target that groups the services needed for a normal non-graphical, multi-user session.","options":["Bootloader (GRUB2)","multi-user.target","EFI System Partition (ESP)","Initramfs"],"answer":"multi-user.target","rationale":""},{"section":"Identification","prompt":"The legacy Linux service manager used before systemd became standard.","options":["Bootloader (GRUB2)","Initramfs","POST (Power-On Self-Test)","init"],"answer":"init","rationale":""},{"section":"Identification","prompt":"The three permission scopes recognized by a standard POSIX filesystem.","options":["umask","User (Owner), Group, Others","chown","2 (w)"],"answer":"User (Owner), Group, Others","rationale":""},{"section":"Identification","prompt":"The command used to change a file's permission bits.","options":["1 (x)","chmod","2 (w)","chown"],"answer":"chmod","rationale":""},{"section":"Identification","prompt":"The command used to change a file's owning user (and optionally group).","options":["getfacl","chown","umask","chgrp"],"answer":"chown","rationale":""},{"section":"Identification","prompt":"The command used specifically to change a file's group ownership.","options":["umask","1 (x)","chgrp","setfacl"],"answer":"chgrp","rationale":""},{"section":"Identification","prompt":"The mechanism that lets multiple specific users and groups be assigned permissions on one file, beyond owner/group/others.","options":["Access Control List (ACL)","chmod","chown","User (Owner), Group, Others"],"answer":"Access Control List (ACL)","rationale":""},{"section":"Identification","prompt":"The command used to set an ACL rule on a file or directory.","options":["chgrp","1 (x)","setfacl","User (Owner), Group, Others"],"answer":"setfacl","rationale":""},{"section":"Identification","prompt":"The command used to display the ACL rules applied to a file.","options":["getfacl","Access Control List (ACL)","chown","4 (r)"],"answer":"getfacl","rationale":""},{"section":"Identification","prompt":"The process-level mask that controls the default permissions given to newly created files.","options":["chgrp","1 (x)","chmod","umask"],"answer":"umask","rationale":""},{"section":"Identification","prompt":"The octal value assigned to the read permission bit.","options":["umask","getfacl","2 (w)","4 (r)"],"answer":"4 (r)","rationale":""},{"section":"Identification","prompt":"The octal value assigned to the write permission bit.","options":["Access Control List (ACL)","User (Owner), Group, Others","2 (w)","umask"],"answer":"2 (w)","rationale":""},{"section":"Identification","prompt":"The octal value assigned to the execute permission bit.","options":["chown","chgrp","setfacl","1 (x)"],"answer":"1 (x)","rationale":""},{"section":"Identification","prompt":"The LVM layer that combines one or more physical volumes into a single unified storage pool.","options":["Inode","Volume Group (VG)","df -h","pvcreate"],"answer":"Volume Group (VG)","rationale":""},{"section":"Identification","prompt":"The LVM layer that initializes a physical disk or partition so it can be managed by LVM.","options":["Inode","mdadm","Physical Volume (PV)","pvcreate"],"answer":"Physical Volume (PV)","rationale":""},{"section":"Identification","prompt":"The virtual, resizable partition carved out of a volume group for filesystem formatting.","options":["Logical Volume (LV)","Volume Group (VG)","mdadm","lsblk"],"answer":"Logical Volume (LV)","rationale":""},{"section":"Identification","prompt":"The command used to initialize a physical volume for LVM.","options":["pvcreate","blkid","Inode","lvcreate"],"answer":"pvcreate","rationale":""},{"section":"Identification","prompt":"The command used to combine physical volumes into a volume group.","options":["blkid","Physical Volume (PV)","vgcreate","Device Mapper"],"answer":"vgcreate","rationale":""},{"section":"Identification","prompt":"The command used to allocate a logical volume from a volume group.","options":["df -h","lvcreate","Device Mapper","Inode"],"answer":"lvcreate","rationale":""},{"section":"Identification","prompt":"The Linux tool used to configure software RAID arrays.","options":["Logical Volume (LV)","mdadm","findmnt","lvcreate"],"answer":"mdadm","rationale":""},{"section":"Identification","prompt":"The kernel framework that provides the block-mapping abstraction used by LVM and software RAID.","options":["Device Mapper","mount -a","Physical Volume (PV)","mdadm"],"answer":"Device Mapper","rationale":""},{"section":"Identification","prompt":"The data structure storing a file's ownership, permissions, timestamps, and data-block pointers, but not its filename.","options":["mount -a","Inode","Volume Group (VG)","df -h"],"answer":"Inode","rationale":""},{"section":"Identification","prompt":"The command that displays filesystem disk space usage in human-readable units.","options":["findmnt","df -h","lvcreate","mount -a"],"answer":"df -h","rationale":""},{"section":"Identification","prompt":"The command that lists block devices, partitions, and LVM mappings in a tree layout.","options":["findmnt","vgcreate","Device Mapper","lsblk"],"answer":"lsblk","rationale":""},{"section":"Identification","prompt":"The command that shows currently mounted filesystems in a hierarchical tree view.","options":["df -h","lvcreate","Physical Volume (PV)","findmnt"],"answer":"findmnt","rationale":""},{"section":"Identification","prompt":"The command that displays a block device's UUID and filesystem type.","options":["Volume Group (VG)","blkid","/etc/fstab","Inode"],"answer":"blkid","rationale":""},{"section":"Identification","prompt":"The configuration file that lists filesystems to be mounted automatically at boot.","options":["/etc/fstab","lsblk","Physical Volume (PV)","lvcreate"],"answer":"/etc/fstab","rationale":""},{"section":"Identification","prompt":"The command that mounts every filesystem listed in /etc/fstab without rebooting.","options":["mount -a","Physical Volume (PV)","vgcreate","/etc/fstab"],"answer":"mount -a","rationale":""},{"section":"Identification","prompt":"The hypervisor type that runs directly on hardware with no host operating system.","options":["Port 445","Type 1 (Bare-Metal) Hypervisor","nc -zv (netcat)","Type 2 (Hosted) Hypervisor"],"answer":"Type 1 (Bare-Metal) Hypervisor","rationale":""},{"section":"Identification","prompt":"The hypervisor type that runs as an application on top of a host operating system.","options":["Internal network mode","nc -zv (netcat)","Type 2 (Hosted) Hypervisor","Bridged Adapter"],"answer":"Type 2 (Hosted) Hypervisor","rationale":""},{"section":"Identification","prompt":"The VM network mode in which the guest is completely isolated from both host and external network.","options":["Type 1 (Bare-Metal) Hypervisor","Bridged Adapter","Internal network mode","Port 445"],"answer":"Internal network mode","rationale":""},{"section":"Identification","prompt":"The VM network mode in which the guest appears as a full, independent node on the physical LAN.","options":["Port 445","Type 1 (Bare-Metal) Hypervisor","Bridged Adapter","nc -zv (netcat)"],"answer":"Bridged Adapter","rationale":""},{"section":"Identification","prompt":"The VM network mode that allows outbound internet access but requires port forwarding for host-to-guest connections.","options":["NAT (Network Address Translation)","Type 2 (Hosted) Hypervisor","Port 80","Internal network mode"],"answer":"NAT (Network Address Translation)","rationale":""},{"section":"Identification","prompt":"The service port number used by unencrypted HTTP traffic.","options":["Port 80","Type 1 (Bare-Metal) Hypervisor","Bridged Adapter","Internal network mode"],"answer":"Port 80","rationale":""},{"section":"Identification","prompt":"The service port number used by the SMB file-sharing protocol.","options":["Port 445","Type 2 (Hosted) Hypervisor","Type 1 (Bare-Metal) Hypervisor","NAT (Network Address Translation)"],"answer":"Port 445","rationale":""},{"section":"Identification","prompt":"The command-line tool commonly used to test whether a specific TCP port on a remote host is reachable.","options":["nc -zv (netcat)","Bridged Adapter","Port 445","Type 1 (Bare-Metal) Hypervisor"],"answer":"nc -zv (netcat)","rationale":""},{"section":"Situational","prompt":"A technician powers on a new server and observes hardware initialization messages before any operating system loads. Which stage is this?","options":["Bootloader handoff to the kernel","BIOS/UEFI POST","systemd target resolution","Initramfs mounting the real root filesystem"],"answer":"BIOS/UEFI POST","rationale":"POST happens immediately at power-on, before any bootloader runs."},{"section":"Situational","prompt":"During boot, GRUB2 is observed loading a kernel image and an initramfs into RAM. What has NOT happened yet at this point?","options":["Hardware POST","Bootloader execution","Mounting of the real root filesystem","Reading of the EFI System Partition"],"answer":"Mounting of the real root filesystem","rationale":"The real root filesystem is mounted only after the kernel initializes."},{"section":"Situational","prompt":"After the kernel decompresses and initializes device drivers, it mounts a temporary filesystem before the real root filesystem is available. What is this temporary filesystem?","options":["initramfs","ESP","MBR","systemd target"],"answer":"initramfs","rationale":"Initramfs supplies storage drivers needed to reach the real root filesystem."},{"section":"Situational","prompt":"A Linux server reaches multi-user.target successfully but the administrator expected graphical.target. What most likely explains this?","options":["The kernel panicked before reaching any systemd target","The default systemd target was set to a non-graphical target","GRUB2 failed to load","The initramfs failed to mount the real root filesystem"],"answer":"The default systemd target was set to a non-graphical target","rationale":"systemd resolves whichever default target is configured; servers are commonly headless."},{"section":"Situational","prompt":"A staff account authenticates successfully via SSH but receives 'Permission denied' when opening a manager-only report. Which statement is most accurate?","options":["Authentication failed","Authentication succeeded and authorization correctly blocked the read","Both authentication and authorization failed","The account does not exist"],"answer":"Authentication succeeded and authorization correctly blocked the read","rationale":"Login success = authentication; the subsequent block is an authorization decision."},{"section":"Situational","prompt":"An administrator runs 'usermod -G finance p1staff05' instead of 'usermod -aG finance p1staff05'. What is the risk?","options":["No risk, both commands are identical","The user's existing supplementary groups are replaced by finance alone","The user's primary group changes to finance","The command will fail with a syntax error"],"answer":"The user's existing supplementary groups are replaced by finance alone","rationale":"Without -a, -G overwrites the full supplementary group list."},{"section":"Situational","prompt":"A user is removed from a supplementary group, but a terminal session opened earlier still shows access to that group's files. Why?","options":["The change did not save to the group database","The existing session retains the group memberships it started with","Group changes only apply after a full reboot","Removing a group only affects write access, not read"],"answer":"The existing session retains the group memberships it started with","rationale":"Group membership is loaded at session/login time, not re-checked live."},{"section":"Situational","prompt":"A file shows permissions -rw-r----- owned by user A, group staff. User A is also a member of group staff. Which permission class governs user A's access?","options":["Group, because it is more restrictive","Owner, because Linux checks the owner class first when the user matches","Others, since group and owner overlap","Whichever class grants more access"],"answer":"Owner, because Linux checks the owner class first when the user matches","rationale":"Linux evaluates owner match first; group bits are not combined with owner bits."},{"section":"Situational","prompt":"A directory has permissions drwxrw---- and a file inside it is -rw-rw----, both owned by root:staff. A staff member cannot open the file even though group read is granted. What is missing?","options":["Execute permission on the directory for the group","Write permission on the file for the group","Ownership of the file by the staff member","A larger octal value on the file"],"answer":"Execute permission on the directory for the group","rationale":"Directory execute permission is required to access entries inside it, independent of file-level read."},{"section":"Situational","prompt":"An employee needs to read, create, edit, and delete files in a shared NTFS folder but must not be able to change its permissions. Which standard permission set fits with least privilege?","options":["Read and Execute","Write","Modify","Full Control"],"answer":"Modify","rationale":"Modify allows CRUD on contents without granting permission-management rights."},{"section":"Situational","prompt":"An NTFS folder inherits Read for Staff from its parent. An admin adds Modify for Management but keeps inheritance enabled. A non-Management staff member can still read the folder. Why?","options":["The inherited Staff Read permission still applies alongside the new entry","Adding Management automatically adds all users to Staff","NTFS permissions require a password change to take effect","Modify overwrites and removes all inherited permissions"],"answer":"The inherited Staff Read permission still applies alongside the new entry","rationale":"NTFS permissions are additive; inherited entries remain unless explicitly removed."},{"section":"Situational","prompt":"Two administrators share one login account for maintenance tasks, making individual actions untraceable in logs. What best improves accountability without adding privilege?","options":["Extend the shared account's log retention period","Give each administrator a separate named account with the same approved rights","Rotate the shared password weekly","Grant both admins access to every system"],"answer":"Give each administrator a separate named account with the same approved rights","rationale":"Named accounts preserve traceability; privilege level is unchanged."},{"section":"Situational","prompt":"A service account only needs to read source files and write to a backup folder. Which assignment best follows least privilege?","options":["Read/write on both source and backup","Admin rights limited to backup hours","Read on every mounted filesystem, write on backup","Read on the required source files, write on the backup directory only"],"answer":"Read on the required source files, write on the backup directory only","rationale":"Access should be scoped exactly to the task, not broadened for convenience."},{"section":"Situational","prompt":"A 2 TB volume group is running low, and the sysadmin needs to add space to a mounted logical volume without unmounting it. Which storage architecture makes this feasible?","options":["Traditional MBR partitioning","LVM, by extending the VG and resizing the LV online","Formatting the disk with NTFS","Rewriting the partition table with fdisk"],"answer":"LVM, by extending the VG and resizing the LV online","rationale":"LVM's abstraction layer allows online resizing that traditional partitions cannot easily do."},{"section":"Situational","prompt":"A RAID array must continue serving data if exactly one disk fails, at the cost of half the raw capacity. Which RAID level fits?","options":["RAID 0","RAID 1","RAID 5 only","JBOD"],"answer":"RAID 1","rationale":"RAID 1 mirrors data across disks, tolerating a single disk failure at 50% capacity efficiency."},{"section":"Situational","prompt":"A development team needs a filesystem supporting files larger than 16 TiB on a Linux server. Which filesystem listed satisfies this out of the compared set?","options":["ext4 (16 TiB limit)","NTFS (8 PB, Windows-only)","APFS (macOS-only)","FAT32"],"answer":"NTFS (8 PB, Windows-only)","rationale":"Of the compared systems, NTFS supports far larger files than ext4, though it's a Windows filesystem — the scenario is testing recognition of the size ceiling, not platform fit."},{"section":"Situational","prompt":"Users report they cannot reach \\\\server\\finance over SMB even though the Samba service is running and the share is correctly configured in smb.conf. Storage is mounted. What layer should be checked next?","options":["Local POSIX/ACL permissions on the shared directory","The SMB protocol version negotiated between client and server","The DNS record pointing to the file server","The firewall rule permitting inbound port 445"],"answer":"Local POSIX/ACL permissions on the shared directory","rationale":"Samba access still requires the underlying Linux permissions to allow the connecting user."},{"section":"Situational","prompt":"A server reboots and a data volume that was manually mounted the previous session is no longer available. What configuration was most likely omitted?","options":["An /etc/fstab entry for persistent mounting","A firewall rule","A DNS record","An LVM snapshot"],"answer":"An /etc/fstab entry for persistent mounting","rationale":"Manual mounts do not survive reboot unless recorded in /etc/fstab."},{"section":"Situational","prompt":"A network uses the block 192.168.10.0/24. How many usable host addresses does this subnet provide?","options":["126","254","510","62"],"answer":"254","rationale":"/24 reserves 8 host bits, giving 256 total addresses minus network and broadcast = 254 usable."},{"section":"Situational","prompt":"A workstation can reach other devices in its own subnet but cannot reach any external website. Which setting is most likely misconfigured?","options":["The default gateway","The keyboard layout","The monitor resolution","The desktop wallpaper"],"answer":"The default gateway","rationale":"The default gateway routes traffic destined for networks outside the local subnet."},{"section":"Situational","prompt":"A user can ping a server's IP address but their browser cannot resolve www.company-server.local. Which layer is failing?","options":["Physical link","DNS resolution","The client's proxy server configuration","The routing table entry for the local subnet"],"answer":"DNS resolution","rationale":"ICMP success confirms IP reachability; browser failure to resolve a name points to DNS."},{"section":"Situational","prompt":"A client can ping a web server's IP but the HTTPS site never loads. DNS resolves correctly. What should be checked next?","options":["Whether port 443 is reachable and not firewalled","Whether the keyboard is connected","Whether the case is properly grounded","Whether the monitor supports HDMI"],"answer":"Whether port 443 is reachable and not firewalled","rationale":"Reachability at the IP/ICMP level doesn't guarantee the application port is open."},{"section":"Situational","prompt":"A VM must appear on the physical LAN with its own IP obtained from the office DHCP server, reachable by any device on that LAN. Which network mode fits?","options":["NAT","Bridged Adapter","Host-Only","Internal"],"answer":"Bridged Adapter","rationale":"Bridged mode makes the VM a first-class node on the physical network."},{"section":"Situational","prompt":"A security team wants to test malware in a VM that must never reach the host, the LAN, or the internet. Which mode fits best?","options":["NAT","Bridged","Host-Only","Internal"],"answer":"Internal","rationale":"Internal networking isolates VM-to-VM only, with no host or external access."},{"section":"Situational","prompt":"Following the bottom-up troubleshooting workflow, a technician has confirmed the link is up and the IP address is valid. What should be tested next?","options":["DNS resolution","Application port reachability","Local gateway reachability via ping","Routing table entries"],"answer":"Local gateway reachability via ping","rationale":"The workflow proceeds: link → IP → gateway ping → routing table → DNS → application port."},{"section":"Situational","prompt":"A deployment script is run three times by accident and each run produces the exact same server configuration with no errors. What property does this script demonstrate?","options":["Idempotency","Least privilege","Virtualization","Bridging"],"answer":"Idempotency","rationale":"Repeated execution yielding the same end state is the definition of idempotency."},{"section":"Situational","prompt":"A team manages servers by editing machine-readable configuration files in version control rather than logging in and making manual changes. What practice is this?","options":["Infrastructure as Code (IaC)","Bare-metal virtualization","Host-only networking","ACL inheritance"],"answer":"Infrastructure as Code (IaC)","rationale":"IaC treats infrastructure configuration as versioned, machine-readable code."},{"section":"Situational","prompt":"An architecture adds three redundant caching layers and two extra failover scripts for a service that has never experienced downtime, making it harder to troubleshoot. Which principle is being violated?","options":["KISS","PoLP","Idempotency","IaC"],"answer":"KISS","rationale":"Unnecessary complexity added without justified need violates Keep It Simple, Stupid."},{"section":"Situational","prompt":"A backup service account is granted full administrative rights to every server so it can 'definitely' complete its backup job. Which principle is violated?","options":["KISS","Principle of Least Privilege","Idempotency","Bridged networking"],"answer":"Principle of Least Privilege","rationale":"The account should only have the minimum rights the backup task needs."},{"section":"Situational","prompt":"A company only verifies its backups are recoverable once every three years, and a restore attempt during an actual outage fails. Which practice was neglected?","options":["Disaster recovery testing","Kernel tuning","ACL granularity","VM bridging"],"answer":"Disaster recovery testing","rationale":"Untested backups do not guarantee successful disaster recovery."},{"section":"Situational","prompt":"A business wants a machine to run a 24/7 web application handling thousands of simultaneous connections with no local desktop use. Which OS type fits best?","options":["Workstation OS","Server OS","A tablet OS","A legacy DOS system"],"answer":"Server OS","rationale":"Server OS is tuned for concurrent non-interactive connections and background services."},{"section":"Situational","prompt":"An OS is tuned to minimize input latency and maximize power efficiency for a single interactive user. Which OS type is this describing?","options":["Server OS","Workstation OS","A hypervisor","A router firmware"],"answer":"Workstation OS","rationale":"Workstation OS prioritizes foreground application responsiveness for one user."},{"section":"Situational","prompt":"A production server is deployed without a graphical desktop, managed entirely through SSH and the command line. What does this reflect about typical server OS design?","options":["GUIs are mandatory on servers","Servers are commonly deployed headless/CLI-first","Servers cannot run any daemons","This configuration is unsupported"],"answer":"Servers are commonly deployed headless/CLI-first","rationale":"Server OS often omits the GUI by default for resource efficiency and security."},{"section":"Situational","prompt":"After an unexpected power loss, a server running ext4 comes back online with the filesystem in a consistent state and no manual repair needed. What feature enabled this?","options":["Journaling","Bridged networking","ACL inheritance","umask"],"answer":"Journaling","rationale":"Journaling filesystems record pending changes so they can recover cleanly after a crash."},{"section":"Situational","prompt":"A disk shows 40% free space with 'df -h', yet the system reports 'No space left on device' when creating new small files. What is the likely cause?","options":["Inode exhaustion","RAM exhaustion","CPU throttling","Broken bridged networking"],"answer":"Inode exhaustion","rationale":"Running out of inodes can block new file creation even when block space remains."},{"section":"Situational","prompt":"A file is renamed from report_v1.txt to report_final.txt. Which statement about its inode is correct?","options":["The inode number changes to match the new name","The inode stays the same; only the parent directory entry changes","The file loses its permission bits","The file must be re-created from scratch"],"answer":"The inode stays the same; only the parent directory entry changes","rationale":"Filenames live in directory entries, not inodes; renaming doesn't change the inode."},{"section":"Situational","prompt":"A sysadmin runs pvcreate, then vgcreate, then lvcreate in that order on a new disk. What does this sequence represent?","options":["Formatting a filesystem directly on raw disk","The correct LVM provisioning order: PV → VG → LV","Configuring software RAID","Setting up bridged networking"],"answer":"The correct LVM provisioning order: PV → VG → LV","rationale":"LVM's layered model requires a PV before a VG, and a VG before an LV."},{"section":"Situational","prompt":"A team needs both redundancy across two disks and the flexibility to resize volumes later without downtime. Which combination best fits?","options":["A single ext4 partition with no LVM","Software RAID for redundancy plus LVM on top for flexible volumes","NTFS on a USB drive","A Host-Only VM network"],"answer":"Software RAID for redundancy plus LVM on top for flexible volumes","rationale":"RAID provides redundancy while LVM adds resizing/volume flexibility on top."},{"section":"Situational","prompt":"An administrator wants finer-grained access than 'owner, one group, everyone else' — specific different permissions for five distinct users on one file. What should be used?","options":["Standard POSIX permissions only","umask adjustments only","Access Control Lists (ACLs) via setfacl","Renaming the file"],"answer":"Access Control Lists (ACLs) via setfacl","rationale":"ACLs allow multiple specific users/groups to have distinct permissions on one file."},{"section":"Situational","prompt":"New files created inside a shared project directory need to automatically inherit specific ACL rules for future files, not just the current ones. What should be configured?","options":["A default ACL on the directory","A higher umask value only","A new primary group for every file","Bridged VM networking"],"answer":"A default ACL on the directory","rationale":"Default ACLs set on a directory apply automatically to files created within it."},{"section":"Situational","prompt":"A user expects new files to be created with 664 permissions but they consistently come out as 644. What is most likely responsible?","options":["The file's inode","The process umask subtracting write permission for group","The bootloader configuration","The VM network mode"],"answer":"The process umask subtracting write permission for group","rationale":"umask masks out permission bits at creation time; a stricter umask removes group write."},{"section":"Situational","prompt":"An admin wants to apply the same ownership to an entire directory tree in one command. Which is correct?","options":["chmod -R","chown -R user:group /path","setfacl --tree","umask -R"],"answer":"chown -R user:group /path","rationale":"chown -R recursively changes ownership of a directory and its contents."},{"section":"Situational","prompt":"A company needs a hypervisor for a datacenter with no host OS overhead, running dozens of production VMs directly on hardware. Which type fits?","options":["Type 2 Hosted Hypervisor","Type 1 Bare-Metal Hypervisor","A workstation OS","A VM network adapter"],"answer":"Type 1 Bare-Metal Hypervisor","rationale":"Type 1 hypervisors run directly on hardware, which suits performance-focused datacenter production use."},{"section":"Situational","prompt":"A developer wants to quickly test a VM on their personal laptop alongside their regular Windows desktop use. Which hypervisor type is more appropriate?","options":["Type 1 Bare-Metal","Type 2 Hosted","No hypervisor is needed","A SAN"],"answer":"Type 2 Hosted","rationale":"Type 2 hypervisors run as an application on an existing host OS, fitting a personal laptop scenario."},{"section":"Situational","prompt":"A firewall blocks TCP port 445 between a client and a file server. Samba is running correctly and shares are configured. What will the user most likely experience?","options":["Full access to the shared folder","Inability to connect to the SMB share despite the service running","A DNS resolution error","A boot failure on the client"],"answer":"Inability to connect to the SMB share despite the service running","rationale":"Port 445 is required for SMB traffic; blocking it prevents the connection regardless of Samba's own configuration."},{"section":"Situational","prompt":"A subnet mask of 255.255.255.0 is applied to a network. How many bits are reserved for the network portion under CIDR notation?","options":["16","24","8","32"],"answer":"24","rationale":"255.255.255.0 corresponds to /24, i.e., 24 network bits."},{"section":"Situational","prompt":"An administrator issues 'ip route' during troubleshooting and finds no default route listed. What connectivity problem does this explain?","options":["Local subnet devices are unreachable","Remote/external destinations are unreachable while local subnet access still works","DNS lookups always fail","The physical link is down"],"answer":"Remote/external destinations are unreachable while local subnet access still works","rationale":"Without a default route, traffic to outside the local subnet has nowhere to go."},{"section":"Situational","prompt":"A user reports a file share is down. Diagnosis shows the network path, Samba service, and mount are all fine, but permissions on the target folder block the connecting Linux user. What best fits this?","options":["The root cause is a network layer failure","The root cause is a POSIX/ACL permission failure, distinct from the network layers that were fine","The root cause is a DNS failure","The root cause is a hypervisor failure"],"answer":"The root cause is a POSIX/ACL permission failure, distinct from the network layers that were fine","rationale":"Symptoms can look identical across layers; verified diagnostics isolate the true root cause to permissions here."},{"section":"Situational","prompt":"A validation exercise for an access matrix wants proof beyond simple screenshots of logins. Which evidence most directly validates that the matrix is enforced?","options":["A screenshot of all usernames existing in the account database","A screenshot showing the admin can open every folder","A successful edit by an authorized manager and a denied read by an unauthorized staff member","A list of server folder names"],"answer":"A successful edit by an authorized manager and a denied read by an unauthorized staff member","rationale":"Direct evidence of both allowed and denied actions demonstrates the access matrix is actually enforced."},{"section":"Situational","prompt":"A user's primary group is p1staff01 with supplementary groups p1_staff and p1_project. An admin runs 'sudo usermod -G p1_management p1staff01'. What is the resulting supplementary group membership?","options":["p1_staff, p1_project, and p1_management, all retained","Only p1_management; p1_staff and p1_project are removed","p1_management becomes the new primary group","p1_management replaces only p1_project"],"answer":"Only p1_management; p1_staff and p1_project are removed","rationale":"-G without -a replaces the entire supplementary group list with what's specified."},{"section":"Application Case","prompt":"A retail company's file server crashes after a power outage. On reboot, IT finds the ext4 volume mounted read-only with journal-recovery messages in the boot log, but no files appear missing after fsck completes automatically. Which conclusion best fits?","options":["The journaling filesystem replayed pending transactions to restore consistency after the unclean shutdown, which is expected recovery behavior, not data loss.","The filesystem is permanently corrupted and must be reformatted.","The RAID array has failed and requires immediate disk replacement.","The bootloader has been corrupted and GRUB2 must be reinstalled."],"answer":"The journaling filesystem replayed pending transactions to restore consistency after the unclean shutdown, which is expected recovery behavior, not data loss.","rationale":"Journaling is designed exactly for this recovery scenario; read-only remount plus automatic journal replay is normal, not evidence of data loss."},{"section":"Application Case","prompt":"A company's backup service account can read every file on every server and can also delete backup archives, restore systems, and modify user accounts, even though its job is limited to nightly file copies to a backup share. An audit flags this. What is the most appropriate remediation?","options":["Leave it as is since backups have always completed successfully.","Reduce the account's rights to read access on the required source paths and write access on the backup destination only, removing restore, delete, and account-management rights.","Increase its rights further to also manage the firewall, in case backups need that later.","Replace the account with a shared root login for simplicity."],"answer":"Reduce the account's rights to read access on the required source paths and write access on the backup destination only, removing restore, delete, and account-management rights.","rationale":"Applying least privilege means scoping the account strictly to what its actual job requires: read source, write backup — nothing more."},{"section":"Application Case","prompt":"An organization is planning storage for a new database server. They expect data volume to grow unpredictably over the next two years and want to avoid downtime when expanding storage later. Which storage approach best supports this goal?","options":["A single fixed MBR partition sized for current needs.","LVM, provisioning a volume group with room to add physical volumes and resize logical volumes online as needed.","A single NTFS partition shared over SMB.","No abstraction layer, formatting the raw disk directly with a filesystem."],"answer":"LVM, provisioning a volume group with room to add physical volumes and resize logical volumes online as needed.","rationale":"LVM's PV/VG/LV abstraction is specifically designed to allow flexible, low-downtime growth over time."},{"section":"Application Case","prompt":"A hospital's records server holds critical patient data. Management wants tolerance for a single disk failure without service interruption, while accepting some loss of usable raw capacity. Which configuration satisfies this requirement?","options":["RAID 0 for maximum speed and capacity.","RAID 1 mirroring across at least two disks.","A single disk with nightly tape backup only.","JBOD with no redundancy."],"answer":"RAID 1 mirroring across at least two disks.","rationale":"RAID 1 mirrors data, allowing the array to survive a single disk failure without downtime, at the cost of capacity efficiency."},{"section":"Application Case","prompt":"A newly hired sysadmin sets up a departmental shared drive. Staff should be able to read, create, and edit documents; only the department head should be able to change who has access to the folder. Which NTFS configuration best matches this requirement while following least privilege?","options":["Grant Full Control to all staff and the department head.","Grant Modify to staff and Full Control to the department head only.","Grant Read and Execute to everyone including the department head.","Grant Write only to staff and Modify to the department head."],"answer":"Grant Modify to staff and Full Control to the department head only.","rationale":"Modify covers day-to-day document work without permission-management rights; Full Control is reserved for the one role that needs to manage access."},{"section":"Application Case","prompt":"A user reports they cannot access \\\\fileserver\\reports even though they can browse other shares on the same server. IT confirms Samba is running, the firewall allows port 445, and the share definition in smb.conf is correct. What should be checked next, and why?","options":["The client's monitor resolution, since display settings can affect network shares.","The local POSIX/ACL permissions on the /reports directory for the connecting Linux user, since SMB access still depends on the underlying filesystem permissions.","The DNS server's uptime, since DNS controls file share access directly.","The VM hypervisor type, since it determines SMB compatibility."],"answer":"The local POSIX/ACL permissions on the /reports directory for the connecting Linux user, since SMB access still depends on the underlying filesystem permissions.","rationale":"When network, service, and share config are all confirmed fine, the next layer to check is the local filesystem permission on the actual directory."},{"section":"Application Case","prompt":"A company migrates a legacy application from a single physical server to a virtualization platform. The application must run alongside a dozen other production VMs with maximum performance and no dependency on a separate host operating system. Which hypervisor type should be used, and why?","options":["Type 2 Hosted, because it is easier to install on a laptop.","Type 1 Bare-Metal, because it runs directly on hardware without host OS overhead, suiting production-scale performance needs.","No hypervisor, running the application on physical hardware directly, because virtualization always reduces performance.","Type 2 Hosted, because hosted hypervisors always outperform bare-metal ones."],"answer":"Type 1 Bare-Metal, because it runs directly on hardware without host OS overhead, suiting production-scale performance needs.","rationale":"Type 1 hypervisors are the standard choice for production datacenters needing maximum performance across many VMs."},{"section":"Application Case","prompt":"A branch office is being set up with a /26 subnet for its 40 devices. The network engineer must confirm the subnet can accommodate the devices and correctly configure the default gateway. Which fact is essential to this planning?","options":["A /26 subnet provides 62 usable host addresses, which is sufficient, and the default gateway must be an address within that same subnet.","A /26 subnet provides only 6 usable addresses, which is insufficient.","The default gateway can be any IP address regardless of subnet.","Subnetting has no effect on how many devices can be assigned addresses."],"answer":"A /26 subnet provides 62 usable host addresses, which is sufficient, and the default gateway must be an address within that same subnet.","rationale":"A /26 has 6 host bits, yielding 64 total addresses minus network/broadcast = 62 usable; the gateway must sit inside the same subnet to be reachable."},{"section":"Application Case","prompt":"A user cannot reach an internal company website by its hostname, but pinging the same server's IP address works fine, and other users on the same subnet are unaffected. What is the most likely, most narrowly-scoped cause?","options":["The user's local DNS resolution or configured DNS server is failing for that hostname.","The entire office's internet connection is down.","The web server's physical network cable is unplugged.","The company's default gateway has failed for everyone."],"answer":"The user's local DNS resolution or configured DNS server is failing for that hostname.","rationale":"Since the IP is reachable and only this user is affected, a broad network/gateway/link failure is ruled out; a name-resolution issue for this user's config is the narrower explanation."},{"section":"Application Case","prompt":"An enterprise wants to test a new patch management tool in an environment where it can reach the internet to download updates but must not be reachable from, or able to reach, other machines on the corporate LAN. Which VM network configuration satisfies both requirements simultaneously?","options":["Bridged Adapter, since it gives full LAN access.","NAT, since it allows outbound internet access via the host while remaining isolated from direct inbound LAN connections.","Internal network, since it blocks all networking including internet access.","Host-Only, since it permits LAN access but blocks the internet."],"answer":"NAT, since it allows outbound internet access via the host while remaining isolated from direct inbound LAN connections.","rationale":"NAT specifically permits outbound internet access through the host's connection while isolating the VM from unsolicited inbound LAN traffic."},{"section":"Application Case","prompt":"An administrator needs five specific contractors to each have different, individually tailored access levels to one shared project folder — some read-only, some read-write, one with no access at all to a single subfolder — without changing the folder's single owner or group. What is the correct tool for this requirement?","options":["Standard POSIX permissions (owner/group/others) alone.","Access Control Lists (ACLs) via setfacl, layered on top of the existing owner/group.","A stricter umask applied server-wide.","Renaming the folder for each contractor."],"answer":"Access Control Lists (ACLs) via setfacl, layered on top of the existing owner/group.","rationale":"ACLs exist precisely to grant multiple, individually distinct permission sets beyond what owner/group/others alone can express."},{"section":"Application Case","prompt":"A junior admin runs 'sudo usermod -G project_team alice' intending to add alice to the project_team group, without realizing the effect of omitting a particular flag. Afterward, alice reports she can no longer access files under her previous groups, hr_docs and finance_docs. What happened, and how should it be fixed going forward?","options":["Nothing happened; her group access is unaffected, and no fix is needed.","Because -a was omitted, -G replaced her entire supplementary group list with project_team only; going forward, 'usermod -aG project_team alice' should be used to add without removing.","Her primary group changed to project_team, which is corrected by editing /etc/fstab.","The command failed silently and must be re-run as root."],"answer":"Because -a was omitted, -G replaced her entire supplementary group list with project_team only; going forward, 'usermod -aG project_team alice' should be used to add without removing.","rationale":"Without -a, -G is destructive to existing supplementary memberships; -aG appends instead of replacing."},{"section":"Application Case","prompt":"A company's disaster recovery plan has never been tested with an actual restore. During a real ransomware incident, IT attempts to restore from backup and discovers the backup files are corrupted and unusable. What process failure led directly to this outcome?","options":["The backups were encrypted, which is inherently unrecoverable.","The organization never performed disaster recovery / restore testing to verify backup integrity before it was needed.","The RAID array used the wrong level.","The VM network mode was set to Bridged instead of NAT."],"answer":"The organization never performed disaster recovery / restore testing to verify backup integrity before it was needed.","rationale":"Backups that are never test-restored can silently fail; DR testing exists to catch exactly this before a real incident."},{"section":"Application Case","prompt":"An automated deployment script provisions a web server configuration. Running it once configures the server correctly; running it five times in a row (due to a scheduler glitch) leaves the server in the exact same correct state each time, with no duplicated configuration or errors. Which design property of the script explains this safely repeatable behavior?","options":["Idempotency, by design, so repeated runs converge to the same state rather than compounding changes.","Bridged networking, which prevents duplicate execution.","A higher umask value.","RAID redundancy in the deployment pipeline."],"answer":"Idempotency, by design, so repeated runs converge to the same state rather than compounding changes.","rationale":"Scripts designed to be idempotent can safely be re-run without side effects accumulating."},{"section":"Application Case","prompt":"A university lab wants students' individual VMs to be able to communicate with each other for a networking exercise, but under no circumstance should any VM reach the campus network or the internet. Which VM network mode should be assigned to every VM in the lab?","options":["NAT, since it provides internet access for updates.","Bridged, since it connects VMs to the campus network directly.","Internal network, since it permits VM-to-VM communication while blocking all host and external access.","Host-Only, since it allows the host to reach the VMs."],"answer":"Internal network, since it permits VM-to-VM communication while blocking all host and external access.","rationale":"Internal networking is the mode designed for VM-to-VM-only isolation with no host or external reachability."},{"section":"Application Case","prompt":"A support ticket states: 'The shared drive is down.' Following the bottom-up troubleshooting workflow, the technician confirms the network link is up, the IP configuration is valid, the gateway responds to ping, the routing table has a default route, and DNS resolves the server name. The next step reveals TCP port 445 is unreachable due to a recently changed firewall rule. What is the root cause, and what does this case illustrate about the workflow?","options":["The root cause is DNS, illustrating that DNS is always checked first.","The root cause is a blocked service port (445) found only after eliminating every lower layer, illustrating that structured bottom-up isolation finds the true failure point rather than guessing.","The root cause is the physical link, which should have been checked last.","There is no single root cause; all layers are equally responsible."],"answer":"The root cause is a blocked service port (445) found only after eliminating every lower layer, illustrating that structured bottom-up isolation finds the true failure point rather than guessing.","rationale":"The case demonstrates why administrators work bottom-up through the stack rather than assuming which layer failed."},{"section":"Application Case","prompt":"A company's finance department needs its shared folder configured so that any new file created inside automatically carries the same specific access rules as existing files, without staff manually re-applying permissions each time. Which feature should be configured on the folder?","options":["A default ACL set on the parent directory so new entries inherit it automatically.","A one-time chmod applied only to files that currently exist.","Bridged VM networking on the file server.","A larger MBR partition."],"answer":"A default ACL set on the parent directory so new entries inherit it automatically.","rationale":"Default ACLs propagate to new files/directories created within the parent, automating consistent access going forward."},{"section":"Application Case","prompt":"An organization virtualizes ten physical servers onto a single Type 1 hypervisor host to reduce hardware costs. Six months later, one VM's disk usage grows unexpectedly, and IT wants to expand its virtual disk without powering down the guest OS or the host. Which underlying storage technology inside the guest OS makes this kind of live expansion practical?","options":["Traditional fixed MBR partitioning inside the guest.","LVM inside the guest, allowing the volume group to absorb new space and the logical volume to be resized online.","Switching the guest's VM network mode from NAT to Bridged.","Reinstalling the guest operating system from scratch."],"answer":"LVM inside the guest, allowing the volume group to absorb new space and the logical volume to be resized online.","rationale":"LVM's resizable logical volumes are exactly what enables non-disruptive online storage growth inside a VM."},{"section":"Application Case","prompt":"A remote office reports intermittent access failures to an internal application. Investigation shows: the link is up, IP addressing is correct, gateway pings succeed, the routing table is fine, DNS resolves correctly, but the application's TCP port occasionally times out only during business hours' peak traffic. What does this pattern most strongly suggest?","options":["A permanent DNS misconfiguration.","A capacity or congestion issue affecting the application port specifically under peak load, rather than a fundamental network layer failure.","A failed bootloader on the office router.","An LVM volume group running out of physical volumes."],"answer":"A capacity or congestion issue affecting the application port specifically under peak load, rather than a fundamental network layer failure.","rationale":"All lower-layer checks pass consistently; failures tied to peak load and a specific port point toward capacity/congestion rather than basic connectivity."},{"section":"Application Case","prompt":"A new sysadmin is asked to design access for a payroll system: HR staff need to read and edit payroll records; an automated nightly reporting service needs only to read records and write a summary file elsewhere; auditors need read-only access once a quarter. Applying least privilege across all three roles, which design is most appropriate?","options":["Give everyone, including the reporting service and auditors, full read/write access to all payroll data at all times.","Scope each role narrowly: HR gets read/write on records; the reporting service gets read on records and write on its summary destination only; auditors get read-only access, provisioned only when needed.","Use one shared administrative account for HR, the service, and auditors.","Grant the reporting service administrative rights so it never fails due to permissions."],"answer":"Scope each role narrowly: HR gets read/write on records; the reporting service gets read on records and write on its summary destination only; auditors get read-only access, provisioned only when needed.","rationale":"Least privilege calls for scoping each distinct role to exactly the access its function requires, no more."}];
+const masterQuizData = [
+    // --- TOPIC 1: INTRODUCTION TO SYSTEM ADMINISTRATION (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 1: Introduction",
+        question: "Which pillar of system administration ensures that system capabilities are restorable after an unplanned system failure or security incident?",
+        options: ["Reliability", "Security", "Efficiency", "Recoverability"],
+        answer: 3,
+        explanation: "Recoverability ensures that data and system functionality can be restored after a crash, failure, or security breach."
+    },
+    {
+        type: "ident",
+        topic: "Topic 1: Introduction",
+        question: "What formal document establishes acceptable usage rules, security standards, and administrative guidelines for organizational IT assets?",
+        answer: "policy",
+        altAnswers: ["policies", "it policy", "security policy"],
+        explanation: "Policies are formal rules that govern acceptable use, password complexity, remote access, and general operations."
+    },
+    {
+        type: "tf",
+        topic: "Topic 1: Introduction",
+        question: "MODIFIED TRUE/FALSE: Change Management ensures that configuration changes are performed randomly whenever bugs occur to minimize operational impact.",
+        options: ["True", "False - Controlled Process"],
+        answer: 1,
+        explanation: "Change Management is a controlled, deliberate process involving risk analysis, approvals, testing, and rollback plans—not random execution."
+    },
+    {
+        type: "mc",
+        topic: "Topic 1: Introduction",
+        question: "SITUATIONAL: An enterprise e-commerce platform goes down because a junior sysadmin applied an unverified update during peak hours without approval. Which lifecycle phase was violated?",
+        options: ["Plan", "Deploy", "Maintain / Change Management", "Operate"],
+        answer: 2,
+        explanation: "Change management within maintenance requires risk assessment, testing, and approval before deploying updates into production environments."
+    },
+    {
+        type: "ident",
+        topic: "Topic 1: Introduction",
+        question: "Which core IT infrastructure component provides end-user interfaces such as laptops or desktops that consume network services?",
+        answer: "clients",
+        altAnswers: ["client", "client devices"],
+        explanation: "Clients are end-user devices (laptops, PCs, workstations) that request and consume services provided by servers."
+    },
+    {
+        type: "tf",
+        topic: "Topic 1: Introduction",
+        question: "MODIFIED TRUE/FALSE: Proving system functionality requires only showing that installation commands executed without returning visible syntax errors.",
+        options: ["True", "False - Evidence over Assumption"],
+        answer: 1,
+        explanation: "The professional mindset requires 'evidence over assumption'—validating setups with logs, functional verification, and screenshots."
+    },
+    {
+        type: "mc",
+        topic: "Topic 1: Introduction",
+        question: "Which sysadmin responsibility directly involves creating accounts, defining roles, and enforcing access rules?",
+        options: ["Deployment", "Access Management", "Continuity", "Operations"],
+        answer: 1,
+        explanation: "Access Management encompasses user and group management, role-based controls, and access control matrices."
+    },
+    {
+        type: "ident",
+        topic: "Topic 1: Introduction",
+        question: "What term describes the initial baseline set of configurations (hostnames, IP assignments, default settings) agreed upon prior to system deployment?",
+        answer: "configuration baseline",
+        altAnswers: ["baseline", "baseline configuration"],
+        explanation: "A configuration baseline serves as the standardized blueprint for all servers, clients, and network parameters."
+    },
+    {
+        type: "tf",
+        topic: "Topic 1: Introduction",
+        question: "MODIFIED TRUE/FALSE: Documentation should only be written at the end of a project after all systems are fully operational.",
+        options: ["True", "False - Continuous Process"],
+        answer: 1,
+        explanation: "Documentation must be maintained continuously alongside changes to maintain operational integrity and facilitate handover."
+    },
+    {
+        type: "mc",
+        topic: "Topic 1: Introduction",
+        question: "SITUATIONAL: A company hires a new developer who needs access to database logs. Instead of granting root, the admin gives read access strictly to the log folder. Which responsibility is being executed?",
+        options: ["Continuity", "Least Privilege / Access Control", "Deployment", "Infrastructure Plan"],
+        answer: 1,
+        explanation: "Restricting permissions to only what is required for a job function applies Access Control and the Principle of Least Privilege."
+    },
+    {
+        type: "ident",
+        topic: "Topic 1: Introduction",
+        question: "What discipline balances usability, security protection, maintainability, and operational continuity in managing computing systems?",
+        answer: "systems administration",
+        altAnswers: ["system administration", "sysadmin"],
+        explanation: "Systems Administration is the comprehensive field dedicated to managing and maintaining IT systems and services."
+    },
+    {
+        type: "tf",
+        topic: "Topic 1: Introduction",
+        question: "MODIFIED TRUE/FALSE: Availability means that unauthorized users are restricted from viewing confidential files.",
+        options: ["True", "False - Confidentiality"],
+        answer: 1,
+        explanation: "Restricting unauthorized access to confidential files is Confidentiality. Availability ensures legitimate users can access services when needed."
+    },
+    {
+        type: "mc",
+        topic: "Topic 1: Introduction",
+        question: "Which lifecycle phase involves identifying requirements, security risks, user needs, and baseline configurations before deployment?",
+        options: ["Plan", "Deploy", "Secure", "Operate"],
+        answer: 0,
+        explanation: "The 'Plan' phase sets up requirements, infrastructure design, risk assessment, and configuration baselines."
+    },
+    {
+        type: "ident",
+        topic: "Topic 1: Introduction",
+        question: "What infrastructure component comprises switches, routers, IP schemes, and DNS tools to enable system intercommunication?",
+        answer: "network",
+        altAnswers: ["networking", "network infrastructure"],
+        explanation: "Networking provides the connectivity infrastructure that connects clients, servers, and storage services."
+    },
+    {
+        type: "tf",
+        topic: "Topic 1: Introduction",
+        question: "MODIFIED TRUE/FALSE: Runbooks and step-by-step troubleshooting logs are examples of operational documentation.",
+        options: ["True", "False - Configuration Management"],
+        answer: 0,
+        explanation: "Runbooks and troubleshooting guides are core operational documentation assets used to maintain continuity."
+    },
 
-const sections = ["All 120", "Identification", "Situational", "Application Case"];
-const chipsWrap = document.getElementById("sectionChips");
-let activeSection = "All 120";
-sections.forEach(s => {
-  const c = document.createElement("div");
-  c.className = "chip" + (s === activeSection ? " active" : "");
-  c.textContent = s;
-  c.onclick = () => {
-    activeSection = s;
-    [...chipsWrap.children].forEach(ch => ch.classList.toggle("active", ch.textContent === s));
-  };
-  chipsWrap.appendChild(c);
-});
+    // --- TOPIC 2: OS INSTALLATION AND BOOT PROCESS (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "Which component of an operating system directly manages CPU, memory allocation, storage access, and hardware communication?",
+        answer: 1,
+        options: ["Bootloader", "Kernel", "Shell", "Init / systemd"],
+        explanation: "The Kernel is the core OS layer interacting directly with hardware and system resources."
+    },
+    {
+        type: "ident",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "What modern system firmware standard replaced legacy BIOS and provides native support for GPT partitioning and Secure Boot?",
+        answer: "uefi",
+        altAnswers: ["unified extensible firmware interface"],
+        explanation: "UEFI (Unified Extensible Firmware Interface) replaces legacy BIOS, offering GPT support, graphical interfaces, and enhanced security."
+    },
+    {
+        type: "tf",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "MODIFIED TRUE/FALSE: GRUB is an example of an operating system kernel.",
+        options: ["True", "False - Bootloader"],
+        answer: 1,
+        explanation: "GRUB (Grand Unified Bootloader) is a bootloader responsible for locating and loading the OS kernel into memory."
+    },
+    {
+        type: "mc",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "SITUATIONAL: A Linux server powers on, passes POST, shows the GRUB menu, but freezes right after initializing system drivers. At which boot stage is the failure occurring?",
+        options: ["Firmware Stage", "Bootloader Stage", "Kernel Initialization", "Service Initialization (systemd)"],
+        answer: 2,
+        explanation: "Failure occurring right after GRUB starts hardware driver loading points directly to a Kernel-level initialization issue."
+    },
+    {
+        type: "ident",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "In modern Linux systems, what process (PID 1) is responsible for starting system services and daemons once the kernel loads?",
+        answer: "systemd",
+        altAnswers: ["init", "systemd / init"],
+        explanation: "systemd (or traditional init) runs as PID 1 to spawn background daemons and operational services."
+    },
+    {
+        type: "tf",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "MODIFIED TRUE/FALSE: When troubleshooting a boot failure, a sysadmin's first reaction should always be reinstalling the operating system.",
+        options: ["True", "False - Diagnose Before Reinstalling"],
+        answer: 1,
+        explanation: "The professional golden rule is to 'diagnose before reinstalling' by observing error outputs and analyzing boot stages."
+    },
+    {
+        type: "mc",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "In a VirtualBox lab, which adapter mode provides outbound internet connectivity for OS package downloads via host NAT?",
+        options: ["Host-Only Adapter", "NAT Adapter", "Bridged Adapter", "Internal Network"],
+        answer: 1,
+        explanation: "NAT provides outbound internet access through the host without exposing the VM directly to external networks."
+    },
+    {
+        type: "ident",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "What legacy partition scheme is limited to 2 TB drive sizes and a maximum of 4 primary partitions?",
+        answer: "mbr",
+        altAnswers: ["master boot record"],
+        explanation: "MBR (Master Boot Record) is the legacy partition table structure limited to 2TB and 4 primary partitions."
+    },
+    {
+        type: "tf",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "MODIFIED TRUE/FALSE: BIOS uses GPT by default to manage high-capacity hard drives exceeding 2 TB.",
+        options: ["True", "False - MBR / UEFI uses GPT"],
+        answer: 1,
+        explanation: "BIOS is associated with MBR partition tables. GPT (GUID Partition Table) is supported natively by UEFI."
+    },
+    {
+        type: "mc",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "SITUATIONAL: You want to establish isolated communication between Server VM and Client VM without host network noise. Which VirtualBox network adapter setup is ideal?",
+        options: ["Bridged Only", "Host-Only Adapter", "NAT Only", "Loopback Adapter"],
+        answer: 1,
+        explanation: "Host-Only Adapter creates a private, predictable internal lab network isolated from external LAN interference."
+    },
+    {
+        type: "ident",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "What term refers to the initial hardware check performed by BIOS/UEFI immediately after power is applied?",
+        answer: "post",
+        altAnswers: ["power on self test", "power-on self-test"],
+        explanation: "POST (Power-On Self-Test) diagnostic checks verify CPU, RAM, and hardware health upon powering on."
+    },
+    {
+        type: "tf",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "MODIFIED TRUE/FALSE: Setting hostnames and configuring static network rules occur during the OS installation phase.",
+        options: ["True", "False - Maintenance Phase"],
+        answer: 0,
+        explanation: "Hostname selection, admin account setup, time zone settings, and storage network configuration occur during OS installation."
+    },
+    {
+        type: "mc",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "Which boot component provides an interactive boot menu allowing admins to select alternative kernel versions or boot options?",
+        options: ["POST", "BIOS Firmware", "Bootloader (e.g., GRUB)", "systemd"],
+        answer: 2,
+        explanation: "Bootloaders like GRUB present menu options to select specific kernel parameters or operational kernel versions."
+    },
+    {
+        type: "ident",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "What specific Linux environment file or target specifies the default system startup state (e.g., multi-user.target)?",
+        answer: "target",
+        altAnswers: ["systemd target", "runlevel"],
+        explanation: "systemd targets (like multi-user.target or graphical.target) dictate which group of services start during boot."
+    },
+    {
+        type: "tf",
+        topic: "Topic 2: OS Installation & Boot",
+        question: "MODIFIED TRUE/FALSE: A host machine in virtualization is the virtual server running inside VirtualBox.",
+        options: ["True", "False - Host is Physical / Guest is Virtual"],
+        answer: 1,
+        explanation: "The physical desktop/laptop providing resources is the 'Host'; the virtual machine running inside virtualization software is the 'Guest'."
+    },
 
-function shuffle(arr){
-  const a = arr.slice();
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
+    // --- TOPIC 3: USER AND GROUP MANAGEMENT (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 3: User & Group Management",
+        question: "Which security principle states that users and processes should be granted only the minimum permissions necessary to perform their work?",
+        options: ["Defense in Depth", "Principle of Least Privilege", "Separation of Duties", "Default-Allow"],
+        answer: 1,
+        explanation: "Least Privilege dictates granting minimal required rights to reduce exposure to errors or intentional misuse."
+    },
+    {
+        type: "ident",
+        topic: "Topic 3: User & Group Management",
+        question: "What security process confirms 'Who you are' using credentials such as passwords, tokens, or SSH keys?",
+        answer: "authentication",
+        altAnswers: ["authn"],
+        explanation: "Authentication proves an identity (Who are you?), while Authorization decides allowed permissions (What can you do?)."
+    },
+    {
+        type: "tf",
+        topic: "Topic 3: User & Group Management",
+        question: "MODIFIED TRUE/FALSE: Authorization determines whether an identity is allowed to perform a specific action on a resource.",
+        options: ["True", "False - Authentication"],
+        answer: 0,
+        explanation: "Authorization evaluates permissions after identity is authenticated to decide allowed access rights."
+    },
+    {
+        type: "mc",
+        topic: "Topic 3: User & Group Management",
+        question: "In Linux numerical permissions, what octal value represents read (r) and execute (x) permissions without write access?",
+        options: ["6", "5", "7", "4"],
+        answer: 1,
+        explanation: "Read (4) + Execute (1) = 5. (Write is 2)."
+    },
+    {
+        type: "ident",
+        topic: "Topic 3: User & Group Management",
+        question: "What administrative grid or table maps organizational roles against system resources to document read, write, and execute rights?",
+        answer: "access control matrix",
+        altAnswers: ["acm", "matrix"],
+        explanation: "An Access Control Matrix systematically documents rights across user groups and file targets."
+    },
+    {
+        type: "tf",
+        topic: "Topic 3: User & Group Management",
+        question: "MODIFIED TRUE/FALSE: System administrators should perform all daily management tasks directly using the root user account.",
+        options: ["True", "False - Dedicated Named Admin Account"],
+        answer: 1,
+        explanation: "Admins should use named user accounts with privilege escalation (e.g., sudo) rather than logging in directly as root to preserve accountability."
+    },
+    {
+        type: "mc",
+        topic: "Topic 3: User & Group Management",
+        question: "SITUATIONAL: A Linux file has permissions `chmod 750 document.txt`. What privileges does the 'Group' owner have?",
+        options: ["Read, Write, Execute (7)", "Read and Execute (5)", "No Access (0)", "Read and Write (6)"],
+        answer: 1,
+        explanation: "In `750`: Owner = 7 (rwx), Group = 5 (r-x), Others = 0 (---)."
+    },
+    {
+        type: "ident",
+        topic: "Topic 3: User & Group Management",
+        question: "Which Linux concept links user actions to distinct user identities through detailed audit trails and log entries?",
+        answer: "accountability",
+        altAnswers: ["accounting"],
+        explanation: "Accountability ensures that every system action can be traced back to an authenticated individual identity."
+    },
+    {
+        type: "tf",
+        topic: "Topic 3: User & Group Management",
+        question: "MODIFIED TRUE/FALSE: Permission validation is complete as soon as you demonstrate that an authorized user can access a share.",
+        options: ["True", "False - Must Test Denied Access"],
+        answer: 1,
+        explanation: "A security design is not validated until you prove both allowed access for authorized users AND denied access for unauthorized users."
+    },
+    {
+        type: "mc",
+        topic: "Topic 3: User & Group Management",
+        question: "Which Windows NTFS permission level allows reading, writing, modifying, and deleting files, but DOES NOT allow changing permissions or taking ownership?",
+        options: ["Full Control", "Modify", "Write", "Read & Execute"],
+        answer: 1,
+        explanation: "Modify allows editing and deleting files, but changing security ACL permissions requires 'Full Control'."
+    },
+    {
+        type: "ident",
+        topic: "Topic 3: User & Group Management",
+        question: "What Linux command changes the group ownership of a file or directory?",
+        answer: "chgrp",
+        altAnswers: ["chown"],
+        explanation: "`chgrp` modifies group ownership (though `chown owner:group` is also commonly used)."
+    },
+    {
+        type: "tf",
+        topic: "Topic 3: User & Group Management",
+        question: "MODIFIED TRUE/FALSE: Assigning permissions to individual users is more scalable than group-based permission assignment.",
+        options: ["True", "False - Group-based Management"],
+        answer: 1,
+        explanation: "Group-based management is scalable and maintainable; individual permission assignment quickly creates administrative clutter."
+    },
+    {
+        type: "mc",
+        topic: "Topic 3: User & Group Management",
+        question: "SITUATIONAL: You want staff members to enter a folder and list its contents, but prevent them from editing files. What symbolic permissions should be applied to the directory?",
+        options: ["r--", "r-x", "-wx", "rw-"],
+        answer: 1,
+        explanation: "Directory access requires Read (`r`) to list files and Execute (`x`) to enter/traverse the folder."
+    },
+    {
+        type: "ident",
+        topic: "Topic 3: User & Group Management",
+        question: "What term describes permission propagation from parent directories down to subfolders in Windows NTFS?",
+        answer: "inheritance",
+        altAnswers: ["permission inheritance"],
+        explanation: "Inheritance passes parent folder ACL permissions automatically to child folders and files."
+    },
+    {
+        type: "tf",
+        topic: "Topic 3: User & Group Management",
+        question: "MODIFIED TRUE/FALSE: In Linux, symbolic permission notation `rwxr-x---` translates numerically to `750`.",
+        options: ["True", "False - 755"],
+        answer: 0,
+        explanation: "`rwx` (7), `r-x` (5), `---` (0) equals octal `750`."
+    },
 
-let queue = [];
-let idx = 0;
+    // --- TOPIC 4: FILE SYSTEMS AND STORAGE MANAGEMENT (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 4: File Systems & Storage",
+        question: "Which tool layer in Linux storage pools multiple physical disks together to allow dynamic volume resizing without repartitioning?",
+        options: ["EXT4", "Logical Volume Manager (LVM)", "MBR", "NTFS"],
+        answer: 1,
+        explanation: "LVM abstract storage through Physical Volumes (PV), Volume Groups (VG), and Logical Volumes (LV) for elastic growth."
+    },
+    {
+        type: "ident",
+        topic: "Topic 4: File Systems & Storage",
+        question: "What directory path serves as the attachment location where a file system becomes accessible within Linux?",
+        answer: "mount point",
+        altAnswers: ["mountpoint"],
+        explanation: "A mount point is a directory location (e.g., `/srv/data`) attached to a specific storage file system."
+    },
+    {
+        type: "tf",
+        topic: "Topic 4: File Systems & Storage",
+        question: "MODIFIED TRUE/FALSE: File content refers to metadata attributes such as creation date, file size, owner, and permissions.",
+        options: ["True", "False - Metadata"],
+        answer: 1,
+        explanation: "Metadata holds properties (size, owner, permissions, timestamps), while File Content represents actual data bytes."
+    },
+    {
+        type: "mc",
+        topic: "Topic 4: File Systems & Storage",
+        question: "Which Linux configuration file defines filesystems and storage volumes that must mount automatically during system boot?",
+        options: ["/etc/hosts", "/etc/fstab", "/etc/sysconfig", "/etc/mount.conf"],
+        answer: 1,
+        explanation: "`/etc/fstab` (File System Table) holds persistent mounting rules evaluated during boot."
+    },
+    {
+        type: "ident",
+        topic: "Topic 4: File Systems & Storage",
+        question: "What Linux command displays disk space utilization in human-readable format across all mounted filesystems?",
+        answer: "df -h",
+        altAnswers: ["df"],
+        explanation: "`df -h` shows overall disk free space in readable units (MB, GB)."
+    },
+    {
+        type: "tf",
+        topic: "Topic 4: File Systems & Storage",
+        question: "MODIFIED TRUE/FALSE: The `lsblk` command is used to inspect block storage structures including disks, partitions, and LVM trees.",
+        options: ["True", "False - findmnt"],
+        answer: 0,
+        explanation: "`lsblk` prints information about block devices in a visual tree format."
+    },
+    {
+        type: "mc",
+        topic: "Topic 4: File Systems & Storage",
+        question: "SITUATIONAL: An administrator creates a mount point `/mnt/finance` and executes `mount /dev/sdb1 /mnt/finance`. However, after rebooting, the folder is empty. Why?",
+        options: ["The disk partition was deleted.", "The mount was temporary because it wasn't added to /etc/fstab.", "Permissions reverted to root.", "LVM corrupted the file structure."],
+        answer: 1,
+        explanation: "Manual `mount` commands are temporary; persistent mounts require entries inside `/etc/fstab`."
+    },
+    {
+        type: "ident",
+        topic: "Topic 4: File Systems & Storage",
+        question: "Which network file-sharing protocol suite enables Linux servers to provide cross-platform file shares to Windows clients?",
+        answer: "samba",
+        altAnswers: ["smb", "samba / smb"],
+        explanation: "Samba implements the SMB protocol on Linux to share files seamlessly with Windows clients."
+    },
+    {
+        type: "tf",
+        topic: "Topic 4: File Systems & Storage",
+        question: "MODIFIED TRUE/FALSE: NTFS is the native default journaling file system used for Linux distribution installations.",
+        options: ["True", "False - ext4"],
+        answer: 1,
+        explanation: "EXT4 is standard for Linux servers; NTFS is Microsoft Windows' standard file system."
+    },
+    {
+        type: "mc",
+        topic: "Topic 4: File Systems & Storage",
+        question: "Which sequence correctly represents the storage hierarchy from raw physical hardware to accessible data?",
+        options: [
+            "Disk -> Partition -> File System -> Mount Point -> Files",
+            "File System -> Disk -> Mount Point -> Partition -> Files",
+            "Mount Point -> File System -> Partition -> Disk -> Files",
+            "Disk -> Mount Point -> Partition -> File System -> Files"
+        ],
+        answer: 0,
+        explanation: "Physical Disk -> Partition/Volume -> File System format -> Mount Point -> Usable Files."
+    },
+    {
+        type: "ident",
+        topic: "Topic 4: File Systems & Storage",
+        question: "What persistent identifier command (`blkid`) reveals uniquely assigned alphanumeric strings for disk partitions?",
+        answer: "uuid",
+        altAnswers: ["universally unique identifier"],
+        explanation: "UUIDs provide stable device identification for reliable `/etc/fstab` mount definitions."
+    },
+    {
+        type: "tf",
+        topic: "Topic 4: File Systems & Storage",
+        question: "MODIFIED TRUE/FALSE: Running `mount -a` attempts to mount all file systems listed in `/etc/fstab` without needing a system reboot.",
+        options: ["True", "False - fstab check"],
+        answer: 0,
+        explanation: "`mount -a` tests all configured persistent entries in `/etc/fstab` immediately to verify syntax before rebooting."
+    },
+    {
+        type: "mc",
+        topic: "Topic 4: File Systems & Storage",
+        question: "In LVM terminology, what layer consists of combined physical storage devices grouped into a unified storage pool?",
+        options: ["Physical Volume (PV)", "Volume Group (VG)", "Logical Volume (LV)", "Mount Point"],
+        answer: 1,
+        explanation: "Volume Group (VG) pools capacity from multiple Physical Volumes (PV) together."
+    },
+    {
+        type: "ident",
+        topic: "Topic 4: File Systems & Storage",
+        question: "Which Linux command displays active directory mount hierarchies and tree mounts?",
+        answer: "findmnt",
+        altAnswers: ["mount"],
+        explanation: "`findmnt` provides a clean tree overview of currently mounted file systems."
+    },
+    {
+        type: "tf",
+        topic: "Topic 4: File Systems & Storage",
+        question: "MODIFIED TRUE/FALSE: Sharing a directory via SMB automatically overrides local Linux filesystem permissions.",
+        options: ["True", "False - Both Storage and Service Permissions Apply"],
+        answer: 1,
+        explanation: "Access requires validation at BOTH layers: file-system permissions (Linux/NTFS) and share permissions (SMB/Samba)."
+    },
+
+    // --- TOPIC 5: NETWORKING BASICS AND CONFIGURATION (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 5: Networking Basics",
+        question: "Which network parameter defines the boundary dividing an IP address into its Network Prefix and Host ID?",
+        options: ["Default Gateway", "Subnet Mask", "DNS Server", "MAC Address"],
+        answer: 1,
+        explanation: "Subnet masks (or CIDR prefixes like `/24`) specify which bits represent the network vs host portion."
+    },
+    {
+        type: "ident",
+        topic: "Topic 5: Networking Basics",
+        question: "What service translates human-readable hostnames (e.g., `server01.example.local`) into numeric IP addresses?",
+        answer: "dns",
+        altAnswers: ["domain name system"],
+        explanation: "DNS (Domain Name System) resolves logical domain names into IP addresses."
+    },
+    {
+        type: "tf",
+        topic: "Topic 5: Networking Basics",
+        question: "MODIFIED TRUE/FALSE: A successful ICMP `ping` test guarantees that the web service operating on port 80/443 is working correctly.",
+        options: ["True", "False - Reachable IP does not mean Reachable Service"],
+        answer: 1,
+        explanation: "Ping tests layer-3 host reachability; it does not prove layer-7 applications or ports (80/443) are listening."
+    },
+    {
+        type: "mc",
+        topic: "Topic 5: Networking Basics",
+        question: "SITUATIONAL: An admin attempts SSH remote management (`192.168.56.10`), but gets 'Connection Refused'. Ping works fine. Which diagnostic tool confirms if SSH (port 22) is listening?",
+        options: ["ip addr", "traceroute", "ss -tuln", "nslookup"],
+        answer: 2,
+        explanation: "`ss` or `netstat` lists open sockets and listening ports to check if daemons are active."
+    },
+    {
+        type: "ident",
+        topic: "Topic 5: Networking Basics",
+        question: "What network service dynamically assigns IP addresses, subnet masks, and default gateways to client endpoints?",
+        answer: "dhcp",
+        altAnswers: ["dynamic host configuration protocol"],
+        explanation: "DHCP automates network configuration assignment for client devices."
+    },
+    {
+        type: "tf",
+        topic: "Topic 5: Networking Basics",
+        question: "MODIFIED TRUE/FALSE: Servers providing critical infrastructure services should always rely on dynamic DHCP addressing.",
+        options: ["True", "False - Predictable Static Addressing"],
+        answer: 1,
+        explanation: "Servers require predictable static IP addresses so clients and services can reliably reach them."
+    },
+    {
+        type: "mc",
+        topic: "Topic 5: Networking Basics",
+        question: "What default port number is used for encrypted SSH remote administration?",
+        options: ["TCP 80", "TCP 445", "TCP 22", "TCP 443"],
+        answer: 2,
+        explanation: "SSH operates over TCP port 22 by default."
+    },
+    {
+        type: "ident",
+        topic: "Topic 5: Networking Basics",
+        question: "What term describes the next-hop router address used when traffic must leave the local subnet?",
+        answer: "default gateway",
+        altAnswers: ["gateway"],
+        explanation: "The default gateway forwards traffic destined for addresses outside the local network subnet."
+    },
+    {
+        type: "tf",
+        topic: "Topic 5: Networking Basics",
+        question: "MODIFIED TRUE/FALSE: The CIDR notation `/24` corresponds to a standard subnet mask of `255.255.255.0`.",
+        options: ["True", "False - 255.255.0.0"],
+        answer: 0,
+        explanation: "`/24` utilizes 24 network bits, translating to `255.255.255.0`."
+    },
+    {
+        type: "mc",
+        topic: "Topic 5: Networking Basics",
+        question: "In structured network troubleshooting, what step should immediately follow verifying local interface status (`ip a`)?",
+        options: ["Querying remote DNS", "Pinging local loopback (`127.0.0.1`)", "Checking service daemons", "Editing routing tables"],
+        answer: 1,
+        explanation: "Testing loopback (`127.0.0.1`) validates that local TCP/IP stack software is operating properly."
+    },
+    {
+        type: "ident",
+        topic: "Topic 5: Networking Basics",
+        question: "What network standard protocol operates on TCP port 445 for SMB file-sharing services?",
+        answer: "smb",
+        altAnswers: ["server message block"],
+        explanation: "SMB (Server Message Block) operates over TCP port 445."
+    },
+    {
+        type: "tf",
+        topic: "Topic 5: Networking Basics",
+        question: "MODIFIED TRUE/FALSE: An IP address belongs to an entire computer hardware system rather than individual network interfaces.",
+        options: ["True", "False - IP Belongs to an Interface"],
+        answer: 1,
+        explanation: "IP addresses are assigned to specific network interfaces (e.g., eth0, wlan0); single machines can have multiple interfaces."
+    },
+    {
+        type: "mc",
+        topic: "Topic 5: Networking Basics",
+        question: "SITUATIONAL: Client A (`192.168.1.10/24`) tries to ping Server B (`192.168.2.10/24`). Which network decision point determines how traffic leaves Client A's interface?",
+        options: ["DNS Query", "Loopback Verification", "Routing Table / Default Gateway evaluation", "Service Port inspection"],
+        answer: 2,
+        explanation: "Because targets reside on different subnets, the host uses its routing table to pass packets to the default gateway."
+    },
+    {
+        type: "ident",
+        topic: "Topic 5: Networking Basics",
+        question: "Which Linux utility performs detailed DNS lookup queries to resolve hostnames to IP addresses?",
+        answer: "dig",
+        altAnswers: ["nslookup", "getent hosts"],
+        explanation: "`dig` (or `nslookup`) queries DNS servers to test name resolution."
+    },
+    {
+        type: "tf",
+        topic: "Topic 5: Networking Basics",
+        question: "MODIFIED TRUE/FALSE: Symptom ≠ Cause means that application-level errors may stem from lower network, storage, or permission failures.",
+        options: ["True", "False - Hardware Failure Only"],
+        answer: 0,
+        explanation: "High-level symptoms (e.g., 'share unavailable') are often caused by lower-layer issues (firewall, network routing, permissions)."
+    },
+
+    // --- TOPIC 6: SECURITY ADMINISTRATION (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 6: Security Administration",
+        question: "Which element of the CIA Triad ensures that system data and logs remain accurate, complete, and untampered with?",
+        options: ["Confidentiality", "Integrity", "Availability", "Accounting"],
+        answer: 1,
+        explanation: "Integrity guarantees data accuracy and protects against unauthorized modifications or tampering."
+    },
+    {
+        type: "ident",
+        topic: "Topic 6: Security Administration",
+        question: "In security architecture, what multi-layered approach ensures that if one security safeguard fails, another protective layer prevents compromise?",
+        answer: "defense in depth",
+        altAnswers: ["layered defense"],
+        explanation: "Defense in Depth combines firewalls, patching, access limits, and monitoring so no single failure point compromises security."
+    },
+    {
+        type: "tf",
+        topic: "Topic 6: Security Administration",
+        question: "MODIFIED TRUE/FALSE: Changing the default SSH port from 22 to 2222 is sufficient by itself to fully secure SSH access.",
+        options: ["True", "False - Obscurity is Not Full Security"],
+        answer: 1,
+        explanation: "Changing ports reduces automated scanning noise, but true SSH hardening requires disabling root login, enforcing keys, and using firewalls."
+    },
+    {
+        type: "mc",
+        topic: "Topic 6: Security Administration",
+        question: "Which firewall posture principle is considered safest when configuring server ingress traffic?",
+        options: ["Default-Allow", "Default-Deny", "Allow-All-Internal", "Log-Only"],
+        answer: 1,
+        explanation: "Default-Deny blocks all incoming traffic by default, explicitly permitting only necessary, documented business services."
+    },
+    {
+        type: "ident",
+        topic: "Topic 6: Security Administration",
+        question: "What SSH hardening setting inside `/etc/ssh/sshd_config` disables direct administrative superuser remote logins?",
+        answer: "PermitRootLogin no",
+        altAnswers: ["permitrootlogin", "permitrootlogin no"],
+        explanation: "Setting `PermitRootLogin no` stops direct remote root logins, forcing admins to authenticate via personal accounts."
+    },
+    {
+        type: "tf",
+        topic: "Topic 6: Security Administration",
+        question: "MODIFIED TRUE/FALSE: In the AAA model, Accounting records user actions and events through system audit logs.",
+        options: ["True", "False - Authorization"],
+        answer: 0,
+        explanation: "Accounting logs activities to maintain auditability and tracking."
+    },
+    {
+        type: "mc",
+        topic: "Topic 6: Security Administration",
+        question: "SITUATIONAL: A company hosts a secure web server. You need to configure the firewall. What rule exemplifies a valid, documented rule?",
+        options: ["Allow all inbound TCP traffic.", "Allow inbound TCP port 443 for HTTPS web traffic.", "Disable firewall on internal interfaces.", "Allow remote root login across ports 1-1024."],
+        answer: 1,
+        explanation: "Rules must grant minimum necessary access with clear business justification (e.g., port 443 for HTTPS)."
+    },
+    {
+        type: "ident",
+        topic: "Topic 6: Security Administration",
+        question: "What term describes system hardening, removing unnecessary software, disabling unneeded services, and closing unused ports?",
+        answer: "os hardening",
+        altAnswers: ["hardening", "system hardening"],
+        explanation: "Hardening reduces system attack surfaces by disabling unnecessary services, patching vulnerabilities, and locking down permissions."
+    },
+    {
+        type: "tf",
+        topic: "Topic 6: Security Administration",
+        question: "MODIFIED TRUE/FALSE: Demonstrating that a firewall application window is open proves that firewall filtering rules are working.",
+        options: ["True", "False - Must Verify Active Rules and Traffic"],
+        answer: 1,
+        explanation: "Visual app status isn't evidence; admins must verify active rule dumps (`ufw status verbose` or `iptables`) and test traffic filtering."
+    },
+    {
+        type: "mc",
+        topic: "Topic 6: Security Administration",
+        question: "Which SSH authentication mechanism is more secure than plain passwords and recommended for remote server administration?",
+        options: ["PAP Authentication", "SSH Public/Private Key Pairs", "CHAP Protocol", "TELNET Tokens"],
+        answer: 1,
+        explanation: "SSH Key Pairs provide cryptographic, brute-force-resistant authentication."
+    },
+    {
+        type: "ident",
+        topic: "Topic 6: Security Administration",
+        question: "What security element represents a weakness in system software or configuration that can be exploited by threats?",
+        answer: "vulnerability",
+        altAnswers: ["vulnerabilities"],
+        explanation: "A vulnerability is a systemic flaw or weakness open to exploitation."
+    },
+    {
+        type: "tf",
+        topic: "Topic 6: Security Administration",
+        question: "MODIFIED TRUE/FALSE: Security administration is a single, one-time task completed immediately after OS setup.",
+        options: ["True", "False - Continuous Process"],
+        answer: 1,
+        explanation: "Security is a continuous cycle: define, harden, verify, monitor, update, and document."
+    },
+    {
+        type: "mc",
+        topic: "Topic 6: Security Administration",
+        question: "Which phase of the Security Administration Cycle involves verifying both allowed access and denied access after applying rules?",
+        options: ["Define", "Harden", "Verify", "Document"],
+        answer: 2,
+        explanation: "The 'Verify' stage tests firewall, account, and service restrictions to validate security enforcement."
+    },
+    {
+        type: "ident",
+        topic: "Topic 6: Security Administration",
+        question: "In security risk vocabulary, what term represents any potential event or source of harm that could exploit system weaknesses?",
+        answer: "threat",
+        altAnswers: ["threats"],
+        explanation: "A Threat is any entity, event, or source capable of exploiting a vulnerability to cause impact."
+    },
+    {
+        type: "tf",
+        topic: "Topic 6: Security Administration",
+        question: "MODIFIED TRUE/FALSE: Disabling unneeded background daemons reduces the system attack surface.",
+        options: ["True", "False - Increases Vulnerability"],
+        answer: 0,
+        explanation: "Turning off unused background services closes exposure vectors and reduces the overall attack surface."
+    },
+
+    // --- TOPIC 7: AUTOMATION AND SCRIPTING (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 7: Automation & Scripting",
+        question: "Why do systems administrators use scripts and automated scheduling tools for routine operational tasks?",
+        options: ["To eliminate the need for backup systems", "To reduce manual errors, save time, and create audit logs", "To bypass security permission checks", "To run commands without requiring user accounts"],
+        answer: 1,
+        explanation: "Automation ensures consistency, minimizes manual mistakes, accelerates execution, and yields verifiable audit logs."
+    },
+    {
+        type: "ident",
+        topic: "Topic 7: Automation & Scripting",
+        question: "What object-oriented command-line shell and scripting environment is natively used for Windows system administration?",
+        answer: "powershell",
+        altAnswers: ["windows powershell"],
+        explanation: "PowerShell is Microsoft's object-oriented shell environment using cmdlets (e.g., `Get-Service`)."
+    },
+    {
+        type: "tf",
+        topic: "Topic 7: Automation & Scripting",
+        question: "MODIFIED TRUE/FALSE: Automated scripts are inherently safe as long as they run under full root or Administrator privileges.",
+        options: ["True", "False - Apply Least Privilege"],
+        answer: 1,
+        explanation: "Running scripts as root/admin increases risk; scripts should always execute under the least privileges needed."
+    },
+    {
+        type: "mc",
+        topic: "Topic 7: Automation & Scripting",
+        question: "SITUATIONAL: A sysadmin schedules a automated cleanup script. However, it mistakenly wiped a production directory because paths were relative. Which automation safety rule was violated?",
+        options: ["Always run as root", "Use explicit absolute paths and test manually first", "Disable logging", "Use dynamic variables only"],
+        answer: 1,
+        explanation: "Scripts must use explicit absolute paths (e.g., `/var/log/app/`) and be tested manually to prevent unintended execution behavior."
+    },
+    {
+        type: "ident",
+        topic: "Topic 7: Automation & Scripting",
+        question: "What time-based job scheduling daemon is standard in Unix/Linux operating systems for automated command execution?",
+        answer: "cron",
+        altAnswers: ["crontab"],
+        explanation: "`cron` (configured via `crontab`) manages scheduled background tasks on Linux systems."
+    },
+    {
+        type: "tf",
+        topic: "Topic 7: Automation & Scripting",
+        question: "MODIFIED TRUE/FALSE: PowerShell uses cmdlets like Get-Process and Get-Service to interact with objects.",
+        options: ["True", "False - Bash Commands"],
+        answer: 0,
+        explanation: "PowerShell utilizes structured `Verb-Noun` cmdlets operating on objects."
+    },
+    {
+        type: "mc",
+        topic: "Topic 7: Automation & Scripting",
+        question: "What essential element must be included inside scripts to capture execution outputs, timestamps, and failure error messages?",
+        options: ["Graphical UI", "Logging Mechanisms", "Interactive Prompts", "Hardcoded Passwords"],
+        answer: 1,
+        explanation: "Logging outputs timestamped execution history and error traces essential for auditing."
+    },
+    {
+        type: "ident",
+        topic: "Topic 7: Automation & Scripting",
+        question: "What task automation scheduling utility built into Microsoft Windows enables administrators to run commands based on triggers or time schedules?",
+        answer: "task scheduler",
+        altAnswers: ["windows task scheduler", "schtasks"],
+        explanation: "Task Scheduler handles scheduled administrative automation in Windows environments."
+    },
+    {
+        type: "tf",
+        topic: "Topic 7: Automation & Scripting",
+        question: "MODIFIED TRUE/FALSE: An administrator should schedule a script to run automatically before ever executing it manually.",
+        options: ["True", "False - Test Manually First"],
+        answer: 1,
+        explanation: "Scripts MUST be executed and validated manually first to catch errors before being placed on automated schedules."
+    },
+    {
+        type: "mc",
+        topic: "Topic 7: Automation & Scripting",
+        question: "Which step in the Automation Life Cycle follows writing the script syntax and preceding automated scheduling?",
+        options: ["Identify", "Schedule", "Test", "Log"],
+        answer: 2,
+        explanation: "Lifecycle: Identify -> Script -> Test -> Schedule -> Log."
+    },
+    {
+        type: "ident",
+        topic: "Topic 7: Automation & Scripting",
+        question: "In Bash scripting, what scripting structure allows repeating operations across files, users, or system resources?",
+        answer: "loop",
+        altAnswers: ["loops", "for loop", "while loop"],
+        explanation: "Loops (`for`, `while`) iterate repetitive actions across data sets or targets."
+    },
+    {
+        type: "tf",
+        topic: "Topic 7: Automation & Scripting",
+        question: "MODIFIED TRUE/FALSE: Bash is the primary command interpreter and scripting environment for Windows enterprise automation.",
+        options: ["True", "False - PowerShell for Windows / Bash for Linux"],
+        answer: 1,
+        explanation: "Bash is standard for Linux/Unix environments; PowerShell is tailored for Windows."
+    },
+    {
+        type: "mc",
+        topic: "Topic 7: Automation & Scripting",
+        question: "Which script component stores configurable values such as dates, backup directories, and system paths?",
+        options: ["Variables", "Loops", "Functions", "Triggers"],
+        answer: 0,
+        explanation: "Variables hold dynamic parameters (e.g., `$BACKUP_DIR`, `DATE`), enabling flexible script maintenance."
+    },
+    {
+        type: "ident",
+        topic: "Topic 7: Automation & Scripting",
+        question: "What command-line tool in Windows allows creating and managing scheduled tasks via script commands?",
+        answer: "schtasks",
+        altAnswers: ["schtasks.exe"],
+        explanation: "`schtasks` provides CLI access to Windows Task Scheduler."
+    },
+    {
+        type: "tf",
+        topic: "Topic 7: Automation & Scripting",
+        question: "MODIFIED TRUE/FALSE: Silent script execution that suppresses and discards error messages is considered best practice.",
+        options: ["True", "False - Error Handling and Logging Required"],
+        answer: 1,
+        explanation: "Hiding errors makes troubleshooting impossible; scripts must trap and log errors to provide auditable evidence."
+    },
+
+    // --- TOPIC 8: BACKUP, RECOVERY, AND DISASTER PLANNING (15 Qs) ---
+    {
+        type: "mc",
+        topic: "Topic 8: Backup & Recovery",
+        question: "Which backup type copies ALL selected files and folders, providing the fastest restore process but taking the most storage space?",
+        options: ["Incremental Backup", "Differential Backup", "Full Backup", "Synthetic Backup"],
+        answer: 2,
+        explanation: "A Full Backup copies all target data; restoration requires only this single baseline archive."
+    },
+    {
+        type: "ident",
+        topic: "Topic 8: Backup & Recovery",
+        question: "What disaster recovery metric defines the maximum acceptable amount of data loss measured in time (e.g., 4 hours of transactions)?",
+        answer: "rpo",
+        altAnswers: ["recovery point objective"],
+        explanation: "RPO (Recovery Point Objective) dictates acceptable data loss measured back in time."
+    },
+    {
+        type: "tf",
+        topic: "Topic 8: Backup & Recovery",
+        question: "MODIFIED TRUE/FALSE: RTO (Recovery Time Objective) measures the maximum acceptable service downtime.",
+        options: ["True", "False - Measured in Data Loss"],
+        answer: 0,
+        explanation: "RTO defines acceptable downtime duration before normal operations must be restored."
+    },
+    {
+        type: "mc",
+        topic: "Topic 8: Backup & Recovery",
+        question: "According to the industry standard 3-2-1 Backup Rule, how many separate storage media types and offsite copies should be maintained?",
+        options: [
+            "3 total copies, 2 different media types, 1 copy offsite",
+            "3 offsite copies, 2 local copies, 1 backup media",
+            "3 full backups, 2 incremental backups, 1 cloud target",
+            "3 media types, 2 offsite locations, 1 local mirror"
+        ],
+        answer: 0,
+        explanation: "3-2-1 Rule: Keep 3 copies of important data, across 2 different media types, with 1 stored offsite."
+    },
+    {
+        type: "ident",
+        topic: "Topic 8: Backup & Recovery",
+        question: "Which backup type copies only data changed since the last FULL backup, growing larger each day until the next full run?",
+        answer: "differential backup",
+        altAnswers: ["differential"],
+        explanation: "Differential backups copy all changes occurring since the last full baseline."
+    },
+    {
+        type: "tf",
+        topic: "Topic 8: Backup & Recovery",
+        question: "MODIFIED TRUE/FALSE: Restoring an incremental backup sequence requires only the latest incremental backup file.",
+        options: ["True", "False - Requires Full Backup plus ALL Subsequent Incrementals"],
+        answer: 1,
+        explanation: "Restoring an incremental backup chain requires the initial Full backup PLUS every sequential incremental archive up to the recovery point."
+    },
+    {
+        type: "mc",
+        topic: "Topic 8: Backup & Recovery",
+        question: "SITUATIONAL: A enterprise server's disk fails. You locate backup `.tar.gz` files on a secondary disk. What critical verification step must occur before declaring data safe?",
+        options: ["Compress the file again", "Perform a restore test to a separate sandbox location and check file integrity", "Delete original source folders", "Update the system firewall"],
+        answer: 1,
+        explanation: "A backup is unproven until a restore test verifies data readability and functional integrity."
+    },
+    {
+        type: "ident",
+        topic: "Topic 8: Backup & Recovery",
+        question: "What backup category captures only files modified since the LAST BACKUP (whether full or incremental)?",
+        answer: "incremental backup",
+        altAnswers: ["incremental"],
+        explanation: "Incremental backups copy only changes made since the most recent backup event."
+    },
+    {
+        type: "tf",
+        topic: "Topic 8: Backup & Recovery",
+        question: "MODIFIED TRUE/FALSE: A backup file existing on a storage drive guarantees that system data is fully recoverable.",
+        options: ["True", "False - Restore Testing Required"],
+        answer: 1,
+        explanation: "Having a file doesn't guarantee recovery—backups can suffer corruption or incomplete writes without restore testing."
+    },
+    {
+        type: "mc",
+        topic: "Topic 8: Backup & Recovery",
+        question: "Which incident response stage immediately follows 'Detect' during a server failure event?",
+        options: ["Assess", "Restore", "Verify", "Improve"],
+        answer: 0,
+        explanation: "Incident Lifecycle: 1. Detect -> 2. Assess scope/impact -> 3. Restore -> 4. Verify -> 5. Improve."
+    },
+    {
+        type: "ident",
+        topic: "Topic 8: Backup & Recovery",
+        question: "What term describes the scheduled period during which backup data is preserved before being overwritten or pruned?",
+        answer: "retention period",
+        altAnswers: ["retention", "backup retention"],
+        explanation: "Retention policies define how long backup snapshots are kept before rotation or expiration."
+    },
+    {
+        type: "tf",
+        topic: "Topic 8: Backup & Recovery",
+        question: "MODIFIED TRUE/FALSE: Shorter RPO requirements generally require more frequent backup operations.",
+        options: ["True", "False - Less Frequent"],
+        answer: 0,
+        explanation: "Near-zero RPO requires near-continuous backups or real-time replication to prevent data loss."
+    },
+    {
+        type: "mc",
+        topic: "Topic 8: Backup & Recovery",
+        question: "Where should test restores be performed to prevent accidental overwrites of operational production systems?",
+        options: ["Directly inside production root", "To a separate, isolated test location", "To external public network shares", "Inside temporary system swap memory"],
+        answer: 1,
+        explanation: "Always test restores in an isolated sandbox or separate directory target to protect production setups."
+    },
+    {
+        type: "ident",
+        topic: "Topic 8: Backup & Recovery",
+        question: "What operational document details step-by-step procedures, emergency contacts, RPO/RTO targets, and recovery roles for business continuity?",
+        answer: "disaster recovery plan",
+        altAnswers: ["drp", "disaster recovery planning"],
+        explanation: "A Disaster Recovery Plan outlines steps, targets, roles, and procedures for recovering operations after critical failure."
+    },
+    {
+        type: "tf",
+        topic: "Topic 8: Backup & Recovery",
+        question: "MODIFIED TRUE/FALSE: Differential backups take longer to restore than a multi-step incremental backup chain.",
+        options: ["True", "False - Differential Restores Faster than Long Incremental Chains"],
+        answer: 1,
+        explanation: "Differential restores require only two components (Full + latest Differential), making them faster to restore than long chains of incrementals."
+    },
+
+    // --- MATCHING TYPES & INTEGRATED COMPREHENSION (30 Qs) ---
+    {
+        type: "match",
+        topic: "Matching Set 1: Sysadmin Commands",
+        question: "Match the command utility to its primary operational administrative purpose:",
+        pairs: [
+            { item: "ip addr", target: "Displays network interfaces and assigned IP addresses" },
+            { item: "lsblk", target: "Lists block device hierarchies and mount targets" },
+            { item: "df -h", target: "Displays filesystem space utilization in human format" },
+            { item: "ss -tuln", target: "Displays listening network sockets and active ports" },
+            { item: "findmnt", target: "Displays the active directory mount tree structure" }
+        ]
+    },
+    {
+        type: "match",
+        topic: "Matching Set 2: Ports & Protocols",
+        question: "Match standard network protocols to their default TCP listening port:",
+        pairs: [
+            { item: "SSH", target: "TCP Port 22" },
+            { item: "HTTP", target: "TCP Port 80" },
+            { item: "HTTPS", target: "TCP Port 443" },
+            { item: "SMB", target: "TCP Port 445" },
+            { item: "DNS", target: "UDP/TCP Port 53" }
+        ]
+    },
+    {
+        type: "match",
+        topic: "Matching Set 3: Backup & Recovery Metrics",
+        question: "Match each disaster recovery concept to its correct operational definition:",
+        pairs: [
+            { item: "Full Backup", target: "Copies all selected files; simplest single-step restore" },
+            { item: "Incremental Backup", target: "Copies changes made strictly since the last backup event" },
+            { item: "Differential Backup", target: "Copies all changes accumulated since last Full baseline" },
+            { item: "RPO", target: "Maximum acceptable data loss measured in time" },
+            { item: "RTO", target: "Maximum acceptable service downtime duration" }
+        ]
+    },
+    {
+        type: "match",
+        topic: "Matching Set 4: Storage Stack Components",
+        question: "Match each Linux storage stack layer to its operational role:",
+        pairs: [
+            { item: "Physical Volume (PV)", target: "Raw disk device initialized for LVM abstraction" },
+            { item: "Volume Group (VG)", target: "Unified pool of combined physical storage space" },
+            { item: "Logical Volume (LV)", target: "Allocated logical storage partition formatted with FS" },
+            { item: "Mount Point", target: "Directory path attaching filesystem to the OS tree" },
+            { item: "/etc/fstab", target: "Configuration defining automatic persistent boot mounts" }
+        ]
+    },
+    {
+        type: "mc",
+        topic: "Integrated Scenarios",
+        question: "SITUATIONAL: An admin creates a automated backup script running as root via crontab. The script writes backups to `/var/backups`, but sets directory permissions to `777`. What issue exists?",
+        options: [
+            "Script automation failure",
+            "Security risk: backup files are world-readable/writable (Confidentiality breach)",
+            "Storage failure: Linux cannot format 777 folders",
+            "Network failure: crontab requires static IP"
+        ],
+        answer: 1,
+        explanation: "Setting `777` permissions exposes backup archives containing sensitive system data to any local user, violating Confidentiality."
+    },
+    {
+        type: "ident",
+        topic: "Integrated Scenarios",
+        question: "In Project P-1, what operational asset records hostnames, IP address allocations, storage paths, user roles, and service parameters?",
+        answer: "configuration baseline",
+        altAnswers: ["baseline", "project documentation"],
+        explanation: "The configuration baseline serves as the master documentation reference across network and storage designs."
+    },
+    {
+        type: "tf",
+        topic: "Integrated Scenarios",
+        question: "MODIFIED TRUE/FALSE: Changing a firewall rule to allow a service should occur before identifying business justification or checking service port availability.",
+        options: ["True", "False - Identify Purpose and Verify First"],
+        answer: 1,
+        explanation: "Rules must follow documented purpose and verification; modifying firewalls blindly creates unneeded attack surfaces."
+    },
+    {
+        type: "mc",
+        topic: "Integrated Scenarios",
+        question: "SITUATIONAL: Users report 'Samba shared drive unavailable'. Ping to the server IP succeeds. SSH connects fine. What layer should the sysadmin inspect next?",
+        options: ["Physical network hardware", "Samba service daemon state and TCP port 445 listening status", "BIOS boot settings", "IP default gateway address"],
+        answer: 1,
+        explanation: "Since IP reachability (Layer 3) and SSH work, narrow focus down to the specific application service state and Samba port (445)."
+    },
+    {
+        type: "ident",
+        topic: "Integrated Scenarios",
+        question: "What VirtualBox networking mode isolates VMs into an internal network communicate-able only among guest VMs without host access?",
+        answer: "internal network",
+        altAnswers: ["internal"],
+        explanation: "'Internal Network' mode restricts guest traffic exclusively to virtual machines attached to the same virtual network name."
+    },
+    {
+        type: "tf",
+        topic: "Integrated Scenarios",
+        question: "MODIFIED TRUE/FALSE: Modern Linux user permissions `chmod 640 logfile.log` gives the file owner read/write, group read-only, and others no access.",
+        options: ["True", "False - 644"],
+        answer: 0,
+        explanation: "Owner = 6 (`rw-`), Group = 4 (`r--`), Others = 0 (`---`)."
+    },
+    {
+        type: "mc",
+        topic: "Integrated Scenarios",
+        question: "SITUATIONAL: A company requires that no more than 1 hour of transaction logs can be lost in a system crash, and recovery must happen within 30 minutes. What are the metrics?",
+        options: [
+            "RPO = 1 hour, RTO = 30 minutes",
+            "RTO = 1 hour, RPO = 30 minutes",
+            "Retention = 1 hour, Cycle = 30 minutes",
+            "RPO = 30 minutes, Downtime = 1 hour"
+        ],
+        answer: 0,
+        explanation: "Acceptable data loss = RPO (1 hour); Acceptable downtime duration = RTO (30 minutes)."
+    },
+    {
+        type: "ident",
+        topic: "Integrated Scenarios",
+        question: "What core administration mindset prioritizes commands, log files, access tests, and screenshots over assuming system health?",
+        answer: "evidence over assumption",
+        altAnswers: ["evidence"],
+        explanation: "The professional sysadmin motto is 'evidence over assumption'—always verify functionality with explicit output proof."
+    },
+    {
+        type: "tf",
+        topic: "Integrated Scenarios",
+        question: "MODIFIED TRUE/FALSE: Disabling direct SSH root login forces system administrators to log in using named personal accounts, supporting accountability.",
+        options: ["True", "False - Reduces Security"],
+        answer: 0,
+        explanation: "Logging in via named accounts creates individual audit logs in system journals prior to escalating privileges via `sudo`."
+    },
+    {
+        type: "mc",
+        topic: "Integrated Scenarios",
+        question: "Which complete chain reflects the correct troubleshooting flow when isolating infrastructure failures?",
+        options: [
+            "Interface -> IP Address -> Local Reachability -> Route -> DNS -> Service/Port",
+            "Service/Port -> DNS -> Route -> Local Reachability -> Interface -> IP Address",
+            "DNS -> Interface -> Service/Port -> IP Address -> Route -> Local Reachability",
+            "Route -> Local Reachability -> Interface -> DNS -> Service/Port -> IP Address"
+        ],
+        answer: 0,
+        explanation: "Troubleshoot bottom-up from network fundamentals: Interface -> IP -> Ping -> Gateway/Route -> DNS -> Service/Port."
+    }
+];
+
+let activeQuizData = [];
+let currentQuestionIdx = 0;
 let score = 0;
-let missed = [];
-let answered = false;
+let selectedMode = 'all';
 
-document.getElementById("startBtn").onclick = () => {
-  let pool = activeSection === "All 120" ? BANK : BANK.filter(q => q.section === activeSection);
-  if (document.getElementById("shuffleToggle").checked) pool = shuffle(pool);
-  queue = pool.map(q => {
-    let options = q.options.slice();
-    if (document.getElementById("shuffleOptToggle").checked) options = shuffle(options);
-    return {...q, options};
-  });
-  idx = 0; score = 0; missed = [];
-  document.getElementById("setup").classList.add("hidden");
-  document.getElementById("endArea").classList.add("hidden");
-  document.getElementById("quizArea").classList.remove("hidden");
-  renderQuestion();
-};
+function startQuiz(mode) {
+    selectedMode = mode;
+    if (mode === 'all') {
+        activeQuizData = [...masterQuizData];
+    } else {
+        activeQuizData = masterQuizData.filter(q => q.type === mode);
+    }
 
-function renderQuestion(){
-  answered = false;
-  const q = queue[idx];
-  document.getElementById("sectionTag").textContent = q.section;
-  document.getElementById("promptText").textContent = q.prompt;
-  document.getElementById("progressText").textContent = (idx+1) + " / " + queue.length;
-  document.getElementById("scoreText").textContent = "Score: " + score;
-  document.getElementById("progressFill").style.width = ((idx)/queue.length*100) + "%";
-  const wrap = document.getElementById("choicesWrap");
-  wrap.innerHTML = "";
-  q.options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.className = "choice";
-    btn.textContent = opt;
-    btn.onclick = () => selectAnswer(opt, btn);
-    wrap.appendChild(btn);
-  });
-  const rat = document.getElementById("rationaleBox");
-  rat.classList.remove("show");
-  rat.textContent = "";
-  document.getElementById("nextBtn").classList.remove("show");
+    currentQuestionIdx = 0;
+    score = 0;
+
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("summary-screen").style.display = "none";
+    document.getElementById("quiz-screen").style.display = "block";
+
+    showQuestion();
 }
 
-function selectAnswer(opt, btn){
-  if (answered) return;
-  answered = true;
-  const q = queue[idx];
-  const correct = opt === q.answer;
-  if (correct) score++;
-  else missed.push(q);
-  [...document.getElementById("choicesWrap").children].forEach(b => {
-    b.disabled = true;
-    if (b.textContent === q.answer) b.classList.add("correct");
-    else if (b === btn) b.classList.add("incorrect");
-  });
-  const rat = document.getElementById("rationaleBox");
-  if (q.rationale) {
-    rat.textContent = (correct ? "✓ Correct. " : "✗ Not quite. ") + q.rationale;
-  } else {
-    rat.textContent = correct ? "✓ Correct." : ("✗ Not quite. Correct answer: " + q.answer);
-  }
-  rat.classList.add("show");
-  document.getElementById("scoreText").textContent = "Score: " + score;
-  document.getElementById("nextBtn").classList.add("show");
+function showQuestion() {
+    const q = activeQuizData[currentQuestionIdx];
+    
+    document.getElementById("question-number").innerText = `Question ${currentQuestionIdx + 1} of ${activeQuizData.length}`;
+    document.getElementById("score-counter").innerText = `Score: ${score} / ${currentQuestionIdx}`;
+    document.getElementById("progress-bar").style.width = `${((currentQuestionIdx) / activeQuizData.length) * 100}%`;
+    
+    document.getElementById("question-type").innerText = `${q.topic} • ${getQuestionTypeName(q.type)}`;
+    document.getElementById("question-text").innerText = q.question;
+    
+    const answerArea = document.getElementById("answer-area");
+    answerArea.innerHTML = "";
+    
+    const feedbackEl = document.getElementById("feedback");
+    feedbackEl.className = "feedback";
+    feedbackEl.style.display = "none";
+    feedbackEl.innerText = "";
+
+    document.getElementById("btn-submit").style.display = "inline-block";
+    document.getElementById("btn-submit").disabled = false;
+    document.getElementById("btn-next").style.display = "none";
+
+    if (q.type === "mc" || q.type === "tf") {
+        const optionsContainer = document.createElement("div");
+        optionsContainer.className = "options-container";
+        
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "btn-option";
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(idx);
+            optionsContainer.appendChild(btn);
+        });
+        answerArea.appendChild(optionsContainer);
+    } else if (q.type === "ident") {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.id = "ident-input";
+        input.placeholder = "Type your answer here...";
+        input.onkeyup = (e) => { if (e.key === "Enter") submitAnswer(); };
+        answerArea.appendChild(input);
+    } else if (q.type === "match") {
+        const grid = document.createElement("div");
+        grid.className = "matching-grid";
+
+        const targets = q.pairs.map(p => p.target);
+        const shuffledTargets = [...targets].sort(() => Math.random() - 0.5);
+
+        q.pairs.forEach((pair, idx) => {
+            const itemLabel = document.createElement("div");
+            itemLabel.innerText = pair.item;
+            itemLabel.style.fontWeight = "bold";
+
+            const select = document.createElement("select");
+            select.id = `match-select-${idx}`;
+            
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.innerText = "-- Select Match --";
+            select.appendChild(defaultOpt);
+
+            shuffledTargets.forEach(t => {
+                const opt = document.createElement("option");
+                opt.value = t;
+                opt.innerText = t;
+                select.appendChild(opt);
+            });
+
+            grid.appendChild(itemLabel);
+            grid.appendChild(select);
+        });
+        answerArea.appendChild(grid);
+    }
 }
 
-document.getElementById("nextBtn").onclick = () => {
-  idx++;
-  if (idx >= queue.length){
-    finishQuiz();
-  } else {
-    renderQuestion();
-  }
-};
+function getQuestionTypeName(type) {
+    switch(type) {
+        case "mc": return "Multiple Choice";
+        case "tf": return "Modified True / False";
+        case "ident": return "Identification";
+        case "match": return "Matching Type";
+        default: return "Question";
+    }
+}
 
-function finishQuiz(){
-  document.getElementById("quizArea").classList.add("hidden");
-  document.getElementById("endArea").classList.remove("hidden");
-  document.getElementById("finalScore").textContent = score + " / " + queue.length;
-  const pct = Math.round(score/queue.length*100);
-  document.getElementById("finalPct").textContent = pct + "% correct";
-  const list = document.getElementById("reviewList");
-  list.innerHTML = "";
-  if (missed.length === 0){
-    const p = document.createElement("div");
-    p.className = "review-item";
-    p.textContent = "Perfect run — no missed items.";
-    list.appendChild(p);
-  } else {
-    missed.forEach(q => {
-      const d = document.createElement("div");
-      d.className = "review-item";
-      d.innerHTML = "<b>Missed:</b> " + q.prompt + "<br>Correct answer: " + q.answer;
-      list.appendChild(d);
+let selectedOptionIdx = null;
+
+function selectOption(idx) {
+    selectedOptionIdx = idx;
+    const buttons = document.querySelectorAll(".btn-option");
+    buttons.forEach((btn, i) => {
+        if (i === idx) {
+            btn.classList.add("selected");
+        } else {
+            btn.classList.remove("selected");
+        }
     });
-  }
-};
+}
 
-document.getElementById("restartBtn").onclick = () => {
-  document.getElementById("endArea").classList.add("hidden");
-  document.getElementById("setup").classList.remove("hidden");
-};
+function submitAnswer() {
+    const q = activeQuizData[currentQuestionIdx];
+    let isCorrect = false;
+
+    if (q.type === "mc" || q.type === "tf") {
+        if (selectedOptionIdx === null) {
+            alert("Please select an option!");
+            return;
+        }
+        isCorrect = (selectedOptionIdx === q.answer);
+
+        const buttons = document.querySelectorAll(".btn-option");
+        buttons.forEach((btn, i) => {
+            btn.disabled = true;
+            if (i === q.answer) btn.classList.add("correct");
+            if (i === selectedOptionIdx && !isCorrect) btn.classList.add("incorrect");
+        });
+    } else if (q.type === "ident") {
+        const input = document.getElementById("ident-input");
+        const val = input.value.trim().toLowerCase();
+        if (!val) {
+            alert("Please enter an answer!");
+            return;
+        }
+        input.disabled = true;
+        const validAnswers = [q.answer.toLowerCase(), ...(q.altAnswers || []).map(a => a.toLowerCase())];
+        isCorrect = validAnswers.includes(val);
+    } else if (q.type === "match") {
+        let allSelected = true;
+        let matchCorrectCount = 0;
+
+        q.pairs.forEach((pair, idx) => {
+            const select = document.getElementById(`match-select-${idx}`);
+            if (!select.value) allSelected = false;
+            if (select.value === pair.target) matchCorrectCount++;
+            select.disabled = true;
+        });
+
+        if (!allSelected) {
+            alert("Please complete all matching pairs!");
+            q.pairs.forEach((pair, idx) => {
+                document.getElementById(`match-select-${idx}`).disabled = false;
+            });
+            return;
+        }
+
+        isCorrect = (matchCorrectCount === q.pairs.length);
+    }
+
+    if (isCorrect) score++;
+
+    const feedbackEl = document.getElementById("feedback");
+    feedbackEl.style.display = "block";
+    if (isCorrect) {
+        feedbackEl.className = "feedback correct";
+        feedbackEl.innerHTML = `<strong>Correct!</strong> ${q.explanation || ""}`;
+    } else {
+        feedbackEl.className = "feedback incorrect";
+        let correctText = "";
+        if (q.type === "mc" || q.type === "tf") correctText = q.options[q.answer];
+        else if (q.type === "ident") correctText = q.answer;
+        else if (q.type === "match") correctText = "See matching pairs.";
+        
+        feedbackEl.innerHTML = `<strong>Incorrect.</strong> Correct Answer: <em>${correctText}</em>.<br>${q.explanation || ""}`;
+    }
+
+    document.getElementById("btn-submit").style.display = "none";
+    document.getElementById("btn-next").style.display = "inline-block";
+    selectedOptionIdx = null;
+}
+
+function nextQuestion() {
+    currentQuestionIdx++;
+    if (currentQuestionIdx < activeQuizData.length) {
+        showQuestion();
+    } else {
+        showSummary();
+    }
+}
+
+function showSummary() {
+    document.getElementById("quiz-screen").style.display = "none";
+    document.getElementById("summary-screen").style.display = "block";
+    
+    document.getElementById("final-score").innerText = `${score} / ${activeQuizData.length}`;
+    
+    const percentage = (score / activeQuizData.length) * 100;
+    const feedback = document.getElementById("performance-feedback");
+
+    if (percentage >= 90) {
+        feedback.innerText = "Outstanding! You have mastered Chapters 1 through 8!";
+    } else if (percentage >= 75) {
+        feedback.innerText = "Great job! Strong understanding of sysadmin concepts. Review missed areas.";
+    } else if (percentage >= 60) {
+        feedback.innerText = "Fair effort. Review lecture decks on storage, networking, and security rules.";
+    } else {
+        feedback.innerText = "Needs improvement. Try running specific question type modes to build mastery.";
+    }
+}
+
+function exitToModeSelect() {
+    document.getElementById("quiz-screen").style.display = "none";
+    document.getElementById("summary-screen").style.display = "none";
+    document.getElementById("start-screen").style.display = "block";
+}
+
+function restartCurrentQuiz() {
+    startQuiz(selectedMode);
+}
 </script>
 </body>
 </html>
